@@ -1,0 +1,13 @@
+# Uploaded media (template designs, student photos, signatures) is loaded by
+# the SPA with crossOrigin="anonymous" so the export / Smart ID 51 print
+# canvas stays untainted. Cross-origin image loads therefore require CORS
+# headers, which api.php cannot provide for static files.
+# Mirror api.php's policy: reflect the Origin ONLY for known frontend
+# origins, with credentials. Same-origin requests (production deploy) send
+# no Origin header and get no CORS headers at all.
+SetEnvIf Origin "^https?://(localhost|127\.0\.0\.1):5173$" LSC_CORS_ORIGIN=$0
+<IfModule mod_headers.c>
+  Header always set Access-Control-Allow-Origin "%{LSC_CORS_ORIGIN}e" env=LSC_CORS_ORIGIN
+  Header always set Access-Control-Allow-Credentials "true" env=LSC_CORS_ORIGIN
+  Header always append Vary "Origin" env=LSC_CORS_ORIGIN
+</IfModule>

@@ -1,0 +1,24 @@
+# --- Dependencies / build output ---
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+
+# --- Environment / secrets ---
+.env
+frontend/.env
+
+# --- User uploads (runtime data, contains personal information) ---
+# Keep the folders and their .htaccess, never the uploaded files themselves.
+backend/uploads/**
+!backend/uploads/**/
+!backend/uploads/**/*.htaccess
+
+# --- Real-student ID design references (personal data, not source) ---
+id sample design and size/
+reference-id-back.jpg
+reference-id-front.jpg
+
+# --- OS / editor noise ---
+Thumbs.db
+.DS_Store

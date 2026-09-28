@@ -1,0 +1,12 @@
+Options -Indexes
+<FilesMatch "\.(php|phtml|php[0-9]?)$">
+Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(png|jpe?g|webp|gif|bmp)$">
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header set Access-Control-Allow-Credentials "true"
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

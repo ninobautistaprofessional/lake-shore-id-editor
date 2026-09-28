@@ -1,0 +1,15 @@
+USE lake_shore_id_system;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS id_type ENUM('COLLEGE','JUNIOR_HIGH','SENIOR_HIGH') NOT NULL DEFAULT 'COLLEGE' AFTER student_name;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS course VARCHAR(255) DEFAULT '' AFTER id_type;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS grade_level VARCHAR(20) DEFAULT '' AFTER course;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS section_name VARCHAR(100) DEFAULT '' AFTER grade_level;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS student_number VARCHAR(100) DEFAULT '' AFTER section_name;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS student_id_number VARCHAR(100) DEFAULT '' AFTER student_number;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS lrn VARCHAR(100) DEFAULT '' AFTER student_id_number;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS academic_year VARCHAR(50) DEFAULT '' AFTER lrn;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS school_year VARCHAR(50) DEFAULT '' AFTER academic_year;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS photo_path VARCHAR(255) DEFAULT '' AFTER school_year;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS original_photo_path VARCHAR(255) DEFAULT '' AFTER photo_path;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS photo_processing_status VARCHAR(32) NOT NULL DEFAULT 'original' AFTER original_photo_path;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS photo_processed_at DATETIME NULL DEFAULT NULL AFTER photo_processing_status;
+ALTER TABLE id_cards ADD COLUMN IF NOT EXISTS photo_crop VARCHAR(255) DEFAULT '' AFTER photo_processed_at;
