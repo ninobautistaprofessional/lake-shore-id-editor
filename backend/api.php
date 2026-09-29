@@ -144,6 +144,32 @@ function normalizeCardByType(array &$values): ?array {
   $values['template_version']=($tv==='')?null:(int)$tv;
   return null;
 }
+
+/*
+ |--------------------------------------------------------------------------
+ | Binding values to a card write
+ |--------------------------------------------------------------------------
+ | The card INSERT/UPDATE statements are built from a field list: the same
+ | list produces the column names, the ":field" placeholders AND the values
+ | handed to execute(). PDO compares the two lists and raises
+ |   SQLSTATE[HY093] Invalid parameter number: number of bound variables
+ |   does not match number of tokens
+ | as soon as the value array holds even ONE key the statement does not
+ | name (a missing key fails the same way).
+ |
+ | That makes the two lists easy to drift apart: the helpers that normalise
+ | a payload are free to add keys — normalizeCardByType() always sets
+ | template_version, which is deliberately NOT a column of the public
+ | portal's field list, so studentSaveCard bound 37 values to a 36-column
+ | INSERT and every public submission failed with HY093.
+ |
+ | cardBindValues() projects the value array onto exactly the fields the
+ | statement names, so the two can never disagree again.
+ */
+function cardBindValues(array $values, array $boundFields): array {
+    return array_intersect_key($values, array_flip($boundFields));
+}
+
 /*
 |--------------------------------------------------------------------------
 | Public student-number search (existing record detection)
@@ -521,7 +547,7 @@ try {
       }
     }
     $cols=implode(',',$fields);$pars=implode(',',array_map(fn($f)=>":$f",$fields));
-    $stmt=$pdo->prepare("INSERT INTO id_cards($cols) VALUES($pars)");$stmt->execute($values);
+    $stmt=$pdo->prepare("INSERT INTO id_cards($cols) VALUES($pars)");$stmt->execute(cardBindValues($values,$fields));
     $id=(int)$pdo->lastInsertId();
     $pdo->query("SELECT RELEASE_LOCK('lsc_card_write')");
     auditLog('card_created','id_card',$id,null,['student_name'=>$values['student_name'],'student_number'=>$values['student_number'],'id_type'=>$values['id_type'],'status'=>'created']);
@@ -987,11 +1013,11 @@ try {
       $newStatus=in_array($curStatus,['done','printed'],true)?'edited':($curStatus!==''?$curStatus:'created');
       $values['status']=$newStatus;
       $sets=implode(',',array_map(fn($f)=>"$f=:$f",$fields));
-      $values['id']=$id;$stmt=$pdo->prepare("UPDATE id_cards SET $sets, status=:status WHERE id=:id");$stmt->execute($values);
+      $values['id']=$id;$stmt=$pdo->prepare("UPDATE id_cards SET $sets, status=:status WHERE id=:id");$stmt->execute(cardBindValues($values,array_merge($fields,['status','id'])));
     }else{
       $values['status']='created';
       $allFields=array_merge($fields,['status']);
-      $cols=implode(',',$allFields);$pars=implode(',',array_map(fn($f)=>":$f",$allFields));$stmt=$pdo->prepare("INSERT INTO id_cards($cols) VALUES($pars)");$stmt->execute($values);$id=(int)$pdo->lastInsertId();
+      $cols=implode(',',$allFields);$pars=implode(',',array_map(fn($f)=>":$f",$allFields));$stmt=$pdo->prepare("INSERT INTO id_cards($cols) VALUES($pars)");$stmt->execute(cardBindValues($values,$allFields));$id=(int)$pdo->lastInsertId();
       $newStatus='created';
     }
     $pdo->query("SELECT RELEASE_LOCK('lsc_card_write')");
