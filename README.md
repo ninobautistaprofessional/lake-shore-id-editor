@@ -1,4 +1,4 @@
-# Lake Shore Colleges ID Management System v2
+# Lake Shore Colleges ID Management System
 
 This version adds the full student ID workflow for **College, Junior High School and Senior High School**, while keeping the previous editable back-side ID and signatory features.
 
