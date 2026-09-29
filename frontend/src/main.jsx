@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { Component, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import html2canvas from "html2canvas";
 import JSZip from "jszip";
@@ -4575,7 +4575,49 @@ function App() {
       ${sig ? `<div class="signature"><img src="${sig}" style="max-width:100px" /><div class="signature-line"></div><div>${c.signatory_name || ""}</div></div>` : ""}
     `;
   }
+  /* Open a saved record in the editor.
+   * Wired to "Edit / View" in the Saved IDs table and to a lost-ID reprint
+   * request that already has a reference card, so it must LOAD the row — the
+   * id argument is the record to open, not the one currently in the editor. */
   async function edit(id) {
+    const cardId = Number(id);
+    if (!cardId) return;
+    try {
+      setLoading(true);
+      const r = await api(`card&id=${cardId}`);
+      /* ?action=card&id=.. answers { success, data: row } — unwrap .data
+       * before reading fields (same unwrap the bulk flows use). */
+      const row = (r && r.data) || r || {};
+      const next = { ...emptyCard, ...row, id: cardId };
+      /* The picker is a <select>, so the FK must be a string to match an
+       * <option value>; a numeric id would silently show "no template". */
+      next.template_id = row.template_id ? String(row.template_id) : "";
+      setActiveRequestId(null);
+      setPendingPhotoId(null);
+      setPendingCloneMsg("");
+      setCard(next);
+      setView("editor");
+      setMsg("");
+      window.scrollTo(0, 0);
+      if (signatories.length > 0) applyDepartmentSignatory(next.id_type, signatories);
+    } catch (e) {
+      setMsg(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  /*
+   * Mark a saved ID as Done (created/edited -> done) once staff have reviewed
+   * it — the "ready for printing" state in the ID lifecycle.
+   *
+   * NOTE: this handler is referenced by the "Mark as Done" button in the
+   * editor's status bar, which only renders once `card.id` is set. It was
+   * missing, so every save that produced a not-yet-done record threw
+   * "markCardDone is not defined" during App's render. With no error boundary
+   * React unmounts the whole tree, so the staff screen went completely white
+   * immediately after a successful Save ID.
+   */
+  async function markCardDone() {
     if (!card.id) return;
     try {
       setLoading(true);
@@ -4584,7 +4626,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: card.id, status: "done" }),
       });
-      setCard((p) => ({ ...p, status: r.data.status }));
+      setCard((p) => ({ ...p, ...(r.data || {}) }));
       setMsg("ID marked as Done — ready for printing.");
       await load();
     } catch (e) {
@@ -8376,4 +8418,55 @@ function ExportButtons() {
     </div>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+/*
+ * ErrorBoundary
+ * -------------
+ * Without this, ANY uncaught render error unmounts the whole React tree and
+ * the user is left staring at a blank white page with no clue what happened
+ * (that is exactly how the missing `markCardDone` handler presented itself).
+ * React 18 only logs the error to the console, which is invisible to staff.
+ *
+ * This catches it and shows the message plus a Reload button instead.
+ */
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, info) {
+    /* Keep the real stack in the console for whoever debugs it. */
+    console.error("Unhandled UI error:", error, info?.componentStack);
+  }
+  render() {
+    if (!this.state.error) return this.props.children;
+    return (
+      <div className="login-shell">
+        <div className="login-card" style={{ textAlign: "center" }}>
+          <div className="login-mark" style={{ margin: "0 auto 12px" }}>
+            LSC
+          </div>
+          <h3 style={{ margin: "0 0 8px" }}>Something went wrong</h3>
+          <p style={{ fontSize: 12, color: "#5d6b63", wordBreak: "break-word" }}>
+            {String(this.state.error?.message || this.state.error)}
+          </p>
+          <button
+            className="primary"
+            style={{ marginTop: 14 }}
+            onClick={() => window.location.reload()}
+          >
+            Reload
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
+
+createRoot(document.getElementById("root")).render(
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>,
+);
