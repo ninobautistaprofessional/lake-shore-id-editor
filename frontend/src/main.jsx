@@ -1,4 +1,4 @@
-Ôªøimport React, { Component, useEffect, useMemo, useRef, useState } from "react";
+import React, { Component, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import html2canvas from "html2canvas";
 import JSZip from "jszip";
@@ -9,7 +9,7 @@ const API_URL =
   import.meta.env.VITE_API_URL ||
   "http://localhost/lake-shore-id-editor/backend/api.php";
 const BACKEND_URL = API_URL.replace(/\/api\.php(?:\?.*)?$/, "");
-/* Imported so Vite bundles it with the correct (relative) base URL ‚Äî
+/* Imported so Vite bundles it with the correct (relative) base URL ó
  * a root-absolute "/lsc-logo.png" 404s when the app is served from a
  * sub-path such as /lake-shore-id-editor/ (Basic Ed logo missing bug). */
 import logo from "./assets/lsc-logo.png";
@@ -100,7 +100,7 @@ function makeStudentCard(type) {
 
 /*
  * Fields the public student-number search is allowed to fill in.
- * Mirrors studentLookupColumns() in backend/api.php ‚Äî the API response is
+ * Mirrors studentLookupColumns() in backend/api.php ó the API response is
  * already limited to exactly these keys, and the results panel renders only
  * these, so no sensitive column can reach the page even if one is added to
  * id_cards later. Keep the two lists in sync.
@@ -147,7 +147,7 @@ const emptyCard = {
   term_3: "In case of lost card, please return to:",
   institution_name: "Lake Shore Colleges",
   institution_address:
-    "A. Bonifacio St., Brgy. Canlalay, City of Bi√±an, Laguna, Philippines",
+    "A. Bonifacio St., Brgy. Canlalay, City of BiÒan, Laguna, Philippines",
   mobile_no: "Mobile No.: 0936-958-2431 / 0962-773-7461",
   telephone_no: "Telephone No.: (049) 511-4328",
   email_address: "E-mail Address: lsei@lakeshore.edu.ph",
@@ -243,7 +243,7 @@ function zoneDisplayValue(card, z) {
   if (!card) return "";
   switch (z.key) {
     case "grade_section":
-      return `${card.grade_level || ""}${card.section_name ? " ‚Äì " + card.section_name : ""}`;
+      return `${card.grade_level || ""}${card.section_name ? " ñ " + card.section_name : ""}`;
     case "id_number":
     case "student_number":
       return card.student_number || card.student_id_number || "";
@@ -315,7 +315,7 @@ function templateZoneKeys(tpl) {
 }
 /* ---- Audit log helpers (read-only trail rendering) ---- */
 function fmtAuditDate(s) {
-  if (!s) return "‚Äî";
+  if (!s) return "ó";
   const d = new Date(String(s).replace(" ", "T"));
   if (Number.isNaN(d.getTime())) return s;
   return d.toLocaleString("en-US", {
@@ -338,9 +338,9 @@ function auditSummary(row) {
   } catch (e) {}
   if (n && typeof n === "object" && !Array.isArray(n)) {
     if (n.batch_print && n.count != null)
-      return `Batch print ‚Äî ${n.count} ID${n.count === 1 ? "" : "s"}`;
+      return `Batch print ó ${n.count} ID${n.count === 1 ? "" : "s"}`;
     if (n.student_name) return n.student_name;
-    if (n.status) return "status ‚Üí " + n.status;
+    if (n.status) return "status ? " + n.status;
   }
   return "";
 }
@@ -499,7 +499,7 @@ function FrontCard({ card }) {
         </div>
 
         <div className="address-small">
-          A. Bonifacio St., Brgy. Canlalay, City of Bi√±an, Laguna, Philippines
+          A. Bonifacio St., Brgy. Canlalay, City of BiÒan, Laguna, Philippines
         </div>
       </header>
 
@@ -527,7 +527,7 @@ function FrontCard({ card }) {
         <div className="front-right">
           <img className="school-logo" src={logo} />
 
-          {/* 
+          {/*
              College:
              No Academic Year block.
 
@@ -555,7 +555,7 @@ function FrontCard({ card }) {
           {isCollege
             ? card.course || "COURSE"
             : `${card.grade_level || "GRADE"}${
-                card.section_name ? " ‚Äì " + card.section_name : ""
+                card.section_name ? " ñ " + card.section_name : ""
               }`}
         </small>
       </div>
@@ -570,7 +570,7 @@ function FrontCard({ card }) {
            */
           <div className="student-number college-student-number">
             <span>STUDENT ID</span>
-            <b>{card.student_number || "‚Äî"}</b>
+            <b>{card.student_number || "ó"}</b>
           </div>
         ) : (
           /*
@@ -581,12 +581,12 @@ function FrontCard({ card }) {
           <>
             <div className="student-number">
               <span>ID No.</span>
-              <b>{card.student_id_number || "‚Äî"}</b>
+              <b>{card.student_id_number || "ó"}</b>
             </div>
 
             <div className="student-number">
               <span>LRN</span>
-              <b>{card.lrn || "‚Äî"}</b>
+              <b>{card.lrn || "ó"}</b>
             </div>
           </>
         )}
@@ -689,7 +689,7 @@ function TemplateCard({ card, template, side }) {
               v
             ) : (
               <span className="tzone-empty" style={{ opacity: 0.3 }}>
-                ‚Äì‚Äì {templateDef(z.key).label} ‚Äì‚Äì
+                ññ {templateDef(z.key).label} ññ
               </span>
             )}
           </div>
@@ -726,11 +726,11 @@ async function renderCardCanvas(id) {
 
   /*
    * CR80 CARD SIZE
-   * 54 √ó 85.6 mm
+   * 54 ◊ 85.6 mm
    *
    * At 600 DPI:
-   * Width  = 54 / 25.4 √ó 600 = 1275.59 ‚âà 1276 px
-   * Height = 85.6 / 25.4 √ó 600 = 2022.05 ‚âà 2022 px
+   * Width  = 54 / 25.4 ◊ 600 = 1275.59 ò 1276 px
+   * Height = 85.6 / 25.4 ◊ 600 = 2022.05 ò 2022 px
    */
 
   const targetW = 1276;
@@ -738,14 +738,14 @@ async function renderCardCanvas(id) {
 
   /*
    * Your current card design is:
-   * 321 √ó 506 CSS pixels
+   * 321 ◊ 506 CSS pixels
    *
    * We calculate the rendering scale from the
    * actual target width instead of using 600/96.
    *
    * This means html2canvas renders directly at
-   * approximately 1276 √ó 2011 px instead of
-   * rendering at 321 √ó 506 and then massively
+   * approximately 1276 ◊ 2011 px instead of
+   * rendering at 321 ◊ 506 and then massively
    * enlarging the result.
    */
   const previewW = 321;
@@ -900,9 +900,9 @@ async function renderCardCanvas(id) {
   /*
    * html2canvas will produce approximately:
    *
-   * 321 √ó 506 √ó 3.975
+   * 321 ◊ 506 ◊ 3.975
    *
-   * ‚âà 1276 √ó 2011
+   * ò 1276 ◊ 2011
    *
    * We resize only the small height difference needed
    * to achieve the exact CR80 600-DPI pixel dimensions.
@@ -969,7 +969,7 @@ async function exportCard(id, format = "png") {
 }
 
 /*
- * SMART ID 51 ‚Äî DIRECT DUAL-SIDE PRINT
+ * SMART ID 51 ó DIRECT DUAL-SIDE PRINT
  * ------------------------------------
  * Renders BOTH faces at full CR80 600-DPI resolution and sends them to the
  * printer as ONE job: page 1 = FRONT, page 2 = BACK.
@@ -1010,7 +1010,7 @@ async function printCardDualSide() {
 
   doc.open();
   doc.write(
-    '<!doctype html><html><head><meta charset="utf-8"><title>Smart ID 51 ‚Äî Dual Side</title><style>' +
+    '<!doctype html><html><head><meta charset="utf-8"><title>Smart ID 51 ó Dual Side</title><style>' +
       "@page{size:85.6mm 54mm;margin:0}" +
       "html,body{margin:0;padding:0;background:#fff}" +
       ".face{width:85.6mm;height:54mm;overflow:hidden;page-break-after:always;break-after:page}" +
@@ -1049,12 +1049,12 @@ async function printCardDualSide() {
 }
 
 /*
- * SMART ID 51 ‚Äî BATCH DUAL-SIDE PRINT
+ * SMART ID 51 ó BATCH DUAL-SIDE PRINT
  * -----------------------------------
  * The same print job as printCardDualSide(), but for a whole batch:
  * page 1 = FRONT of card 1, page 2 = BACK of card 1, page 3 = FRONT of
  * card 2, and so on. The caller renders every face with the SHARED card
- * renderer (renderCardCanvasForBulk ‚Äî the same component used by the live
+ * renderer (renderCardCanvasForBulk ó the same component used by the live
  * preview and bulk PNG export) and passes the PNG data URLs in; this
  * function only assembles the pages and hands them to the printer. The
  * @page size and per-face CSS are identical to the single-card job, so the
@@ -1062,7 +1062,7 @@ async function printCardDualSide() {
  */
 async function printFacesDualSide(
   faces,
-  title = "Smart ID 51 ‚Äî Batch Dual Side",
+  title = "Smart ID 51 ó Batch Dual Side",
 ) {
   if (!Array.isArray(faces) || faces.length === 0) {
     throw new Error("No rendered card faces were supplied to the print job.");
@@ -1134,7 +1134,7 @@ async function printFacesDualSide(
 }
 
 /* One Smart ID 51 job is capped so the rendered page payload stays bounded
- * (each face is a full 1276√ó2022 @600 DPI image). Larger runs are split. */
+ * (each face is a full 1276◊2022 @600 DPI image). Larger runs are split. */
 const MAX_BULK_PRINT = 100;
 
 /*
@@ -1175,7 +1175,7 @@ function TemplateFieldsForm({
               onChange={(e) => photoUpload(e.target.files?.[0])}
             />
             {card.photo_path ? (
-              <small>Photo uploaded ‚Äî will be drawn inside the template photo zone.</small>
+              <small>Photo uploaded ó will be drawn inside the template photo zone.</small>
             ) : (
               <small>Student photo needed for this template.</small>
             )}
@@ -1262,13 +1262,13 @@ function TemplateFieldsForm({
     <>
       {front.length > 0 && (
         <>
-          <h2>Front of ID ‚Äî Data Needed</h2>
+          <h2>Front of ID ó Data Needed</h2>
           <div className="form-grid">{front.map(renderOne)}</div>
         </>
       )}
       {back.length > 0 && (
         <>
-          <h2>Back of ID ‚Äî Data Needed</h2>
+          <h2>Back of ID ó Data Needed</h2>
           <div className="form-grid">{back.map(renderOne)}</div>
         </>
       )}
@@ -1548,15 +1548,15 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
         {err && (
           <div className="alert">
             {err}
-            <button onClick={() => setErr("")}>√ó</button>
+            <button onClick={() => setErr("")}>◊</button>
           </div>
         )}
         <p className="td-note">
-          üñº The uploaded design is kept <b>100% exact</b> ‚Äî it becomes the
+          ?? The uploaded design is kept <b>100% exact</b> ó it becomes the
           card background. Only the yellow <b>data zones</b> you place are
           drawn over it with the student data. Drag zones to move them, drag
           the corner handle to resize, or click the canvas to add a zone.
-          Placed the wrong field? Hover the zone and click the red ‚úï (or
+          Placed the wrong field? Hover the zone and click the red ? (or
           select it and press Delete) to remove it.
         </p>
         <div className="td-body">
@@ -1582,10 +1582,10 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
               </button>
               <span className="td-toolbar-spacer" />
               <button type="button" onClick={() => addZone("text")}>
-                Ôºã Text Zone
+                + Text Zone
               </button>
               <button type="button" onClick={() => addZone("image")}>
-                Ôºã Photo Zone
+                + Photo Zone
               </button>
             </div>
             <div className="td-canvas" ref={canvasRef} onMouseDown={addZoneAtPoint}>
@@ -1598,8 +1598,8 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
               ) : (
                 <div className="td-canvas-empty">
                   {side === "front"
-                    ? "‚¨Ü Upload the FRONT design (PNG/JPG) to start placing data zones"
-                    : "Back design not uploaded yet ‚Äî upload it below, or leave empty to use the default LSC back"}
+                    ? "? Upload the FRONT design (PNG/JPG) to start placing data zones"
+                    : "Back design not uploaded yet ó upload it below, or leave empty to use the default LSC back"}
                 </div>
               )}
               {zones.map((z, i) => {
@@ -1622,11 +1622,11 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
                       e.stopPropagation();
                       setSel(i);
                     }}
-                    title={def.label + " (drag to move, corner to resize, ‚úï or Delete to remove)"}
+                    title={def.label + " (drag to move, corner to resize, ? or Delete to remove)"}
                   >
                     <span className="td-zone-label">{def.label}</span>
                     {zoneIsImage(z) ? (
-                      <span className="td-zone-ph td-zone-ph-img">üñº photo</span>
+                      <span className="td-zone-ph td-zone-ph-img">?? photo</span>
                     ) : (
                       <span className="td-zone-ph">{def.label}</span>
                     )}
@@ -1643,7 +1643,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
                         removeZone(i);
                       }}
                     >
-                      ‚úï
+                      ?
                     </span>
                     <span
                       className="td-zone-handle"
@@ -1684,7 +1684,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
                   setTpl((p) => ({ ...p, is_active: e.target.checked ? "1" : "0" }))
                 }
               />
-              Use as active template for {typeTitles[tpl.id_type]} ‚Äî new IDs of
+              Use as active template for {typeTitles[tpl.id_type]} ó new IDs of
               this department are automatically created from it
             </label>
             <h3>Design Images (100% exact copy)</h3>
@@ -1703,7 +1703,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
               {frontPreview && <small>Front image selected.</small>}
             </label>
             <label className="upload field">
-              <span>Back design (PNG / JPG ‚Äî optional)</span>
+              <span>Back design (PNG / JPG ó optional)</span>
               <input
                 type="file"
                 accept="image/png,image/jpeg"
@@ -1909,7 +1909,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
                       className="danger td-delete"
                       onClick={() => removeZone(sel)}
                     >
-                      üóë Remove this zone
+                      ?? Remove this zone
                     </button>
                   </>
                 )}
@@ -1918,7 +1918,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
               <p className="td-hint">
                 Select a zone on the canvas to configure the data field, font,
                 color, alignment and exact position. Press Delete or click the
-                red ‚úï on a zone to remove it.
+                red ? on a zone to remove it.
               </p>
             )}
           </div>
@@ -1929,7 +1929,7 @@ function TemplateDesigner({ initial, onSave, onCancel }) {
             {saving ? (
               <>
                 <span className="s-spin" aria-hidden="true" />
-                Saving‚Ä¶
+                SavingÖ
               </>
             ) : (
               "Save Template"
@@ -2046,7 +2046,7 @@ function Login({ onLogin, onBack }) {
               <div className="alert" style={{ margin: "0 0 14px" }}>
                 {err}
                 <button type="button" onClick={() => setErr("")}>
-                  √ó
+                  ◊
                 </button>
               </div>
             )}
@@ -2101,7 +2101,7 @@ function Login({ onLogin, onBack }) {
                   className="link-btn"
                   onClick={onBack}
                 >
-                  ‚Üê Student Portal
+                  ? Student Portal
                 </button>
               )}
             </div>
@@ -2141,7 +2141,7 @@ function Login({ onLogin, onBack }) {
                   setFpMsg("");
                 }}
               >
-                ‚Üê Back to sign in
+                ? Back to sign in
               </button>
             </div>
           </>
@@ -2201,7 +2201,7 @@ function Login({ onLogin, onBack }) {
                   setFpMsg("");
                 }}
               >
-                ‚Üê Back to sign in
+                ? Back to sign in
               </button>
             </div>
           </>
@@ -2265,8 +2265,8 @@ function StudentAlert({ message, onClose }) {
 
 /*
  * Shown when the public API answers HTTP 429 (rate limit reached).
- * Explains what happened, counts the wait down and ‚Äî when the server
- * offers a human-verification challenge ‚Äî lets a student behind a
+ * Explains what happened, counts the wait down and ó when the server
+ * offers a human-verification challenge ó lets a student behind a
  * shared network solve it and continue without waiting.
  */
 function formatWait(total) {
@@ -2329,7 +2329,7 @@ function StudentThrottleNotice({
                 />
               ) : (
                 <span className="s-captcha-img s-captcha-img--wait">
-                  Loading‚Ä¶
+                  LoadingÖ
                 </span>
               )}
               <input
@@ -2383,7 +2383,7 @@ function HoneypotField() {
 }
 
 /*
- * Student search ‚Äî existing record detection.
+ * Student search ó existing record detection.
  *
  * Workflow: Enter Student Number -> Search -> Student Found (or Student Not
  * Found) -> the form underneath is filled in automatically. It lives inside
@@ -2391,7 +2391,7 @@ function HoneypotField() {
  *
  * Only the fields listed in PUBLIC_LOOKUP_FIELDS are ever shown or copied
  * into the form; the API response contains nothing else. Deliberately NOT a
- * nested <form> ‚Äî this sits inside the real <form>, and the Search button
+ * nested <form> ó this sits inside the real <form>, and the Search button
  * therefore is type="button" with an explicit Enter handler.
  */
 function StudentLookupPanel({
@@ -2460,7 +2460,7 @@ function StudentLookupPanel({
         >
           {busy ? (
             <>
-              <span className="s-spin" aria-hidden="true" /> Searching‚Ä¶
+              <span className="s-spin" aria-hidden="true" /> SearchingÖ
             </>
           ) : (
             "Search"
@@ -2486,11 +2486,11 @@ function StudentLookupPanel({
           </dl>
           <small>
             These details have been loaded into the form below. If everything
-            is correct, there is nothing to submit ‚Äî the record already exists.
+            is correct, there is nothing to submit ó the record already exists.
           </small>
           {onLostId && (
             <button type="button" className="link-btn" onClick={onLostId}>
-              This is me and my ID is lost ‚Üí Report Lost ID
+              This is me and my ID is lost ? Report Lost ID
             </button>
           )}
         </div>
@@ -2613,7 +2613,7 @@ function StudentPortal({ onStaffLogin }) {
       setCaptcha({ id: r.captcha_id, image: r.image });
       setCaptchaCode("");
     } catch {
-      /* Verification is unavailable ‚Äî the wait countdown still applies. */
+      /* Verification is unavailable ó the wait countdown still applies. */
     }
   }
 
@@ -2645,8 +2645,8 @@ function StudentPortal({ onStaffLogin }) {
     return { captcha_id: captcha.id, captcha_code: captchaCode.trim() };
   }
 
-  /* The authorized signatory is server data ‚Äî staff can change who signs each
-   * department's cards ‚Äî so it is always loaded from the API and never taken
+  /* The authorized signatory is server data ó staff can change who signs each
+   * department's cards ó so it is always loaded from the API and never taken
    * from what the browser submits. */
   async function loadSignatory(type) {
     try {
@@ -2678,7 +2678,7 @@ function StudentPortal({ onStaffLogin }) {
     setStep("form");
     window.scrollTo(0, 0);
     const sig = await loadSignatory(type);
-    /* Only apply when the student is still on the department they picked ‚Äî
+    /* Only apply when the student is still on the department they picked ó
      * a slow response must not overwrite a newer choice. */
     setCard((p) => (p.id_type === type ? { ...p, ...sig } : p));
   }
@@ -2943,7 +2943,7 @@ function StudentPortal({ onStaffLogin }) {
           </p>
           <p className="student-note">
             Create your official student ID online. Select your department,
-            fill out the form and review the live preview ‚Äî your ID will be
+            fill out the form and review the live preview ó your ID will be
             saved directly to the school's ID Management System.
           </p>
           <div className="student-cta-row">
@@ -2974,7 +2974,7 @@ function StudentPortal({ onStaffLogin }) {
   if (step === "choose")
     return (
       <div className="student-shell">
-        <StudentTopBar onBack={reset} backLabel="‚Üê Home" onStaffLogin={onStaffLogin} />
+        <StudentTopBar onBack={reset} backLabel="? Home" onStaffLogin={onStaffLogin} />
         <main className="student-landing">
           <h1>What kind of student are you?</h1>
           <p className="student-note">
@@ -2994,7 +2994,7 @@ function StudentPortal({ onStaffLogin }) {
           </div>
           <p className="student-foot">
             <button type="button" className="link-btn" onClick={reset}>
-              ‚Üê Back
+              ? Back
             </button>
           </p>
         </main>
@@ -3004,13 +3004,13 @@ function StudentPortal({ onStaffLogin }) {
   if (step === "form" && card)
     return (
       <div className="student-shell student-editor">
-        <StudentTopBar onBack={reset} backLabel="‚Üê Cancel" onStaffLogin={onStaffLogin} />
+        <StudentTopBar onBack={reset} backLabel="? Cancel" onStaffLogin={onStaffLogin} />
         <main className="content">
           <header className="top">
             <div>
               <h1>Student ID Creation</h1>
               <p>
-                {typeTitles[card.id_type]} ‚Äî fill out your details and review
+                {typeTitles[card.id_type]} ó fill out your details and review
                 the live ID preview.
               </p>
             </div>
@@ -3218,7 +3218,7 @@ function StudentPortal({ onStaffLogin }) {
                       {busy ? (
                         <>
                           <span className="s-spin" aria-hidden="true" />
-                          Submitting‚Ä¶
+                          SubmittingÖ
                         </>
                       ) : (
                         "Submit ID"
@@ -3242,7 +3242,7 @@ function StudentPortal({ onStaffLogin }) {
                 <b>Live preview</b>
                 <small>
                   This preview shows exactly how your ID will be printed. No
-                  download is available here ‚Äî submit the form and the school
+                  download is available here ó submit the form and the school
                   will process and release your ID.
                 </small>
               </div>
@@ -3255,7 +3255,7 @@ function StudentPortal({ onStaffLogin }) {
   if (step === "lost")
     return (
       <div className="student-shell student-editor">
-        <StudentTopBar onBack={reset} backLabel="‚Üê Home" onStaffLogin={onStaffLogin} />
+        <StudentTopBar onBack={reset} backLabel="? Home" onStaffLogin={onStaffLogin} />
         <main className="content">
           <header className="top">
             <div>
@@ -3263,7 +3263,7 @@ function StudentPortal({ onStaffLogin }) {
               <p>
                 Request a reprint of your student ID. Fill in your details and
                 attach a copy of your payment receipt (optional). Your details
-                are checked against the ID Management System ‚Äî a request can
+                are checked against the ID Management System ó a request can
                 only be submitted if your ID already exists in the system.
               </p>
             </div>
@@ -3399,7 +3399,7 @@ function StudentPortal({ onStaffLogin }) {
                 {busy ? (
                   <>
                     <span className="s-spin" aria-hidden="true" />
-                    Submitting‚Ä¶
+                    SubmittingÖ
                   </>
                 ) : (
                   "Submit Request"
@@ -3463,7 +3463,7 @@ function StudentPortal({ onStaffLogin }) {
           </button>
           <p className="student-foot">
             <button type="button" className="link-btn" onClick={reset}>
-              ‚Üê Back to Home
+              ? Back to Home
             </button>
           </p>
         </main>
@@ -3481,6 +3481,7 @@ function App() {
   /* Photo picked from the library BEFORE the student row exists. save() clones
    * it into the new student's library so the Create-ID flow needs no pre-save. */
   const [pendingPhotoId, setPendingPhotoId] = useState(null); // photo-library pick awaiting first save
+  const [pendingPhotoFile, setPendingPhotoFile] = useState(null); // file picked for a new card, uploaded only on save
   const [pendingCloneMsg, setPendingCloneMsg] = useState("");
   /* User info dropdown in the app bar (User Accounts / Audit Logs shortcuts) */
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -3557,7 +3558,7 @@ function App() {
   const [reprintOpen, setReprintOpen] = useState(false);
   const [reprintChoice, setReprintChoice] = useState("Damaged");
   const [reprintText, setReprintText] = useState("");
-  /* Dashboard Analytics ‚Äî aggregated server-side (dashboardStats action) so
+  /* Dashboard Analytics ó aggregated server-side (dashboardStats action) so
    * totals/charts are computed by SQL, never by loading every record. */
   const [dashStats, setDashStats] = useState(null);
   const [dashLoading, setDashLoading] = useState(false);
@@ -3630,7 +3631,7 @@ function App() {
       /* keep current list */
     }
   }
-  async function load() {
+  async function initDashboard() {
     try {
       const [c, s] = await Promise.all([api("cards"), api("signatories")]);
 
@@ -3685,7 +3686,7 @@ function App() {
       setAuditLoading(false);
     }
   }
-  /* Lightweight total for the account-menu badge ‚Äî does not touch the
+  /* Lightweight total for the account-menu badge ó does not touch the
    * visible audit list (loadAudit keeps the user's filters and page). */
   async function refreshAuditCount() {
     try {
@@ -3757,7 +3758,7 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    if (user) load();
+    if (user) initDashboard();
   }, [user]);
   useEffect(() => {
     if (user && user.role === "admin") {
@@ -3836,6 +3837,7 @@ function App() {
     setCard(next);
     setPendingPhotoId(null);
     setPendingCloneMsg("");
+      setPendingPhotoFile(null);
     setView("editor");
     window.scrollTo(0, 0);
 
@@ -3946,7 +3948,7 @@ function App() {
       setImportFile(null);
       setImportPreview(null);
       // Refresh the records list
-      if (view === "records") load();
+      if (view === "records") initDashboard();
     } catch (err) {
       alert("Import failed: " + (err.message || "Unknown error"));
     } finally {
@@ -3967,7 +3969,7 @@ function App() {
     setImportResult(null);
     setView("records");
     setFilter("");
-    await load();
+    await initDashboard();
     setBulkModalOpen(true);
   }
   async function save() {
@@ -4023,8 +4025,42 @@ function App() {
           setPendingCloneMsg(e.message || "Could not attach the selected photo.");
         }
       }
-      setMsg("ID saved successfully");
-      await load();
+        /* Upload pending photo file for new cards (deferred from selection) */
+        if (pendingPhotoFile && r.id) {
+          try {
+            const fd = new FormData();
+            fd.append("photo", pendingPhotoFile);
+            fd.append("student_id", String(r.id));
+            const pr = await api("uploadPhoto", { method: "POST", body: fd });
+            setCard((p) => ({
+              ...p,
+              photo_path: pr.path,
+              preferred_photo_id: pr.photo_id || p.preferred_photo_id,
+            }));
+            setPendingPhotoFile(null);
+          } catch (e) {
+            setMsg("Card saved but photo upload failed: " + e.message);
+          }
+        }
+        /* Upload pending photo file for new cards (deferred from selection) */
+        if (pendingPhotoFile && r.id) {
+          try {
+            const fd = new FormData();
+            fd.append("photo", pendingPhotoFile);
+            fd.append("student_id", String(r.id));
+            const pr = await api("uploadPhoto", { method: "POST", body: fd });
+            setCard((p) => ({
+              ...p,
+              photo_path: pr.path,
+              preferred_photo_id: pr.photo_id || p.preferred_photo_id,
+            }));
+            setPendingPhotoFile(null);
+          } catch (e) {
+            setMsg("Card saved but photo upload failed: " + e.message);
+          }
+        }
+        setMsg("ID saved successfully");
+      await initDashboard();
     } catch (e) {
       setMsg(e.message);
     } finally {
@@ -4218,7 +4254,7 @@ function App() {
       setBulkResults({ generated, failed });
       alert(`${generated.length} IDs generated and downloaded successfully.\n${failed.length} failed.`);
       setBulkModalOpen(false);
-      await load();
+      await initDashboard();
     } catch (err) {
       alert("Bulk generation failed: " + (err.message || "Unknown error"));
       setBulkResults({ generated: [], failed });
@@ -4255,7 +4291,7 @@ function App() {
     );
   }
   /* Header "Select All" checkbox: ticks every printable row currently shown
-   * (released rows are excluded ‚Äî they cannot be printed). */
+   * (released rows are excluded ó they cannot be printed). */
   function togglePrintAll(on) {
     if (on) {
       const add = shownEligible
@@ -4328,7 +4364,7 @@ function App() {
     setBpProgress({ current: 0, total: batch.length, phase: "render" });
     try {
       /* Render every front + back off-screen with the SAME renderer used by
-       * bulk generation and the live preview ‚Äî no duplicate card markup. */
+       * bulk generation and the live preview ó no duplicate card markup. */
       const faces = [];
       for (let i = 0; i < batch.length; i++) {
         const student = batch[i];
@@ -4356,14 +4392,14 @@ function App() {
         /* Yield to the event loop so the progress bar keeps painting. */
         await new Promise((r) => setTimeout(r, i % 10 === 9 ? 40 : 5));
       }
-      /* ONE dual-side job: front, back, front, back, ‚Ä¶ (Smart ID 51). */
+      /* ONE dual-side job: front, back, front, back, Ö (Smart ID 51). */
       setBpProgress({ current: 0, total: 1, phase: "send" });
       await printFacesDualSide(
         faces,
-        `Smart ID 51 ‚Äî Batch (${faces.length} ID${faces.length === 1 ? "" : "s"})`,
+        `Smart ID 51 ó Batch (${faces.length} ID${faces.length === 1 ? "" : "s"})`,
       );
       /* Record EVERY printed ID through the existing tracking system
-       * (print_history + status sync + audit) ‚Äî bulk never bypasses it. */
+       * (print_history + status sync + audit) ó bulk never bypasses it. */
       setBpProgress({ current: 1, total: 1, phase: "record" });
       const r = await api("bulkPrint", {
         method: "POST",
@@ -4384,7 +4420,7 @@ function App() {
             : ""),
       );
       setPrintSel([]);
-      await load();
+      await initDashboard();
     } catch (e) {
       setBpResult({ error: e.message || "Batch print failed." });
       setMsg(e.message || "Batch print failed.");
@@ -4509,7 +4545,7 @@ function App() {
             }
           : undefined,
       });
-      /* Non-template path renders at 321*scale ‚âà 1276 wide; normalise the
+      /* Non-template path renders at 321*scale ò 1276 wide; normalise the
        * height to exactly 2022 the same way renderCardCanvas does. */
       if ((!useTemplate || backFallback) && (canvas.width !== targetW || canvas.height !== targetH)) {
         const out = document.createElement("canvas");
@@ -4538,7 +4574,7 @@ function App() {
       <div class="top-wave" style="background:${color}"></div>
       <div class="front-header"><div class="brand">LAKE SHORE COLLEGES</div>
       <div class="formerly">formerly Lake Shore Educational Institution</div>
-      <div class="address-small">A. Bonifacio St., Brgy. Canlalay, City of Bi√±an, Laguna, Philippines</div></div>
+      <div class="address-small">A. Bonifacio St., Brgy. Canlalay, City of BiÒan, Laguna, Philippines</div></div>
       <div class="department">${typeTitles[c.id_type]}</div>
       <div class="front-main">
         <div class="photo-frame">${photo ? `<img src="${photo}" style="width:100%;height:100%;object-fit:cover" />` : '<div class="photo-placeholder">ID<br/>PHOTO</div>'}
@@ -4577,7 +4613,7 @@ function App() {
   }
   /* Open a saved record in the editor.
    * Wired to "Edit / View" in the Saved IDs table and to a lost-ID reprint
-   * request that already has a reference card, so it must LOAD the row ‚Äî the
+   * request that already has a reference card, so it must LOAD the row ó the
    * id argument is the record to open, not the one currently in the editor. */
   async function edit(id) {
     const cardId = Number(id);
@@ -4585,7 +4621,7 @@ function App() {
     try {
       setLoading(true);
       const r = await api(`card&id=${cardId}`);
-      /* ?action=card&id=.. answers { success, data: row } ‚Äî unwrap .data
+      /* ?action=card&id=.. answers { success, data: row } ó unwrap .data
        * before reading fields (same unwrap the bulk flows use). */
       const row = (r && r.data) || r || {};
       const next = { ...emptyCard, ...row, id: cardId };
@@ -4608,7 +4644,7 @@ function App() {
   }
   /*
    * Mark a saved ID as Done (created/edited -> done) once staff have reviewed
-   * it ‚Äî the "ready for printing" state in the ID lifecycle.
+   * it ó the "ready for printing" state in the ID lifecycle.
    *
    * NOTE: this handler is referenced by the "Mark as Done" button in the
    * editor's status bar, which only renders once `card.id` is set. It was
@@ -4627,8 +4663,8 @@ function App() {
         body: JSON.stringify({ id: card.id, status: "done" }),
       });
       setCard((p) => ({ ...p, ...(r.data || {}) }));
-      setMsg("ID marked as Done ‚Äî ready for printing.");
-      await load();
+      setMsg("ID marked as Done ó ready for printing.");
+      await initDashboard();
     } catch (e) {
       setMsg(e.message);
     } finally {
@@ -4661,7 +4697,7 @@ function App() {
       });
       setCard((p) => ({ ...p, ...r.data }));
       setMsg("ID released to the student.");
-      await load();
+      await initDashboard();
     } catch (e) {
       setMsg(e.message);
     } finally {
@@ -4696,10 +4732,10 @@ function App() {
         }));
         setMsg(
           r.print_type === "reprint"
-            ? `Print job sent to Smart ID 51 ‚Äî Reprint recorded (${r.reason}), print #${r.data.print_count}.`
-            : `Print job sent to Smart ID 51 ‚Äî Original print recorded, print #${r.data.print_count}.`,
+            ? `Print job sent to Smart ID 51 ó Reprint recorded (${r.reason}), print #${r.data.print_count}.`
+            : `Print job sent to Smart ID 51 ó Original print recorded, print #${r.data.print_count}.`,
         );
-        await load();
+        await initDashboard();
       } else {
         setMsg("Print job sent to Smart ID 51. Save the ID to track its print status.");
       }
@@ -4788,7 +4824,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
-      await load();
+      await initDashboard();
       setMsg("Record deleted");
     } catch (e) {
       setMsg(e.message);
@@ -4943,7 +4979,7 @@ function App() {
   }
   /* NOTE: `shown` is declared further up in this component (just before the
    * Batch Printing block). It must be initialised before `shownEligible` is
-   * computed during render ‚Äî a `const` referenced before its declaration line
+   * computed during render ó a `const` referenced before its declaration line
    * throws "Cannot access 'shown' before initialization" (TDZ), which crashes
    * <App /> on the very first render and shows only a white screen. */
   const shownUsers = users.filter((x) =>
@@ -4958,7 +4994,7 @@ function App() {
           <div className="login-mark" style={{ margin: "0 auto 12px" }}>
             LSC
           </div>
-          <div>Loading session‚Ä¶</div>
+          <div>Loading sessionÖ</div>
         </div>
       </div>
     );
@@ -5003,7 +5039,7 @@ function App() {
             }}
             title="Lost ID Reprint Requests"
           >
-            <span className="notif-icon">üîî</span>
+            <span className="notif-icon">??</span>
             {pendingRequests.length > 0 && (
               <span className="notif-badge">{pendingRequests.length}</span>
             )}
@@ -5029,7 +5065,7 @@ function App() {
                   <small>Administrator</small>
                 </span>
                 <span className="user-caret" aria-hidden="true">
-                  ‚ñæ
+                  ?
                 </span>
               </button>
               {userMenuOpen && (
@@ -5049,7 +5085,7 @@ function App() {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    <span className="user-dd-icon" aria-hidden="true">üë•</span>
+                    <span className="user-dd-icon" aria-hidden="true">??</span>
                     <span className="user-dd-label">User Accounts</span>
                     <span className="user-dd-count">{users.length}</span>
                   </button>
@@ -5064,7 +5100,7 @@ function App() {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    <span className="user-dd-icon" aria-hidden="true">üóÇ</span>
+                    <span className="user-dd-icon" aria-hidden="true">??</span>
                     <span className="user-dd-label">ID Templates</span>
                     <span className="user-dd-count">{templates.length}</span>
                   </button>
@@ -5079,7 +5115,7 @@ function App() {
                       window.scrollTo(0, 0);
                     }}
                   >
-                    <span className="user-dd-icon" aria-hidden="true">üìú</span>
+                    <span className="user-dd-icon" aria-hidden="true">??</span>
                     <span className="user-dd-label">Audit Logs</span>
                     <span className="user-dd-count">
                       {Number(auditTotal || 0).toLocaleString()}
@@ -5149,7 +5185,7 @@ function App() {
                 {loading ? (
                   <>
                     <span className="s-spin" aria-hidden="true" />
-                    Saving‚Ä¶
+                    SavingÖ
                   </>
                 ) : (
                   "Save ID"
@@ -5169,7 +5205,7 @@ function App() {
         {msg && (
           <div className="alert">
             {msg}
-            <button onClick={() => setMsg("")}>√ó</button>
+            <button onClick={() => setMsg("")}>◊</button>
           </div>
         )}
         {view === "dashboard" && (
@@ -5241,7 +5277,7 @@ function App() {
                     onClick={loadDashboardStats}
                     disabled={dashLoading}
                   >
-                    {dashLoading ? "Refreshing‚Ä¶" : "‚ü≥ Refresh"}
+                    {dashLoading ? "RefreshingÖ" : "? Refresh"}
                   </button>
                 </div>
               </div>
@@ -5249,35 +5285,35 @@ function App() {
                 <>
                   <div className="stat-cards">
                     <StatCard
-                      icon="üéì"
+                      icon="??"
                       label="Total Students"
                       value={dashStats.summary.total}
                       hint={`${dashStats.summary.in_progress} not yet released`}
                       tone="tone-total"
                     />
                     <StatCard
-                      icon="üñ®Ô∏è"
+                      icon="???"
                       label="Printed"
                       value={dashStats.summary.printed}
                       hint={`${dashPct(dashStats.summary.printed, dashStats.summary.total)}% of students`}
                       tone="tone-printed"
                     />
                     <StatCard
-                      icon="‚úÖ"
+                      icon="?"
                       label="Released"
                       value={dashStats.summary.released}
                       hint={`${dashPct(dashStats.summary.released, dashStats.summary.total)}% of students`}
                       tone="tone-released"
                     />
                     <StatCard
-                      icon="üîé"
+                      icon="??"
                       label="Lost IDs"
                       value={dashStats.lost_ids}
                       hint="Reprint requests reported"
                       tone="tone-lost"
                     />
                     <StatCard
-                      icon="‚ôªÔ∏è"
+                      icon="??"
                       label="Reprints"
                       value={dashStats.reprints}
                       hint="Reprint jobs recorded"
@@ -5288,7 +5324,7 @@ function App() {
                     <div className="chart-card">
                       <div className="chart-head">
                         <h3>Students / IDs by Department</h3>
-                        <small>College ¬∑ Junior High ¬∑ Senior High</small>
+                        <small>College ∑ Junior High ∑ Senior High</small>
                       </div>
                       <DeptChart rows={dashStats.by_type} />
                     </div>
@@ -5310,7 +5346,7 @@ function App() {
                 </>
               ) : (
                 <div className="dash-loading">
-                  {dashLoading ? "Loading analytics‚Ä¶" : "No analytics available yet."}
+                  {dashLoading ? "Loading analyticsÖ" : "No analytics available yet."}
                 </div>
               )}
             </div>
@@ -5370,7 +5406,7 @@ function App() {
               )}
               <Dash
                 title="Import Students"
-                icon="üì•"
+                icon="??"
                 count="CSV / Excel"
                 action={() => {
                   setImportFile(null);
@@ -5384,7 +5420,7 @@ function App() {
               />
               <Dash
                 title="Photo Processing"
-                icon="üñº"
+                icon="??"
                 action={() => {
                   setView("photoprocessing");
                   window.scrollTo(0, 0);
@@ -5395,7 +5431,7 @@ function App() {
               {user.role === "admin" && (
                 <Dash
                   title="Photo Library"
-                  icon="üì∏"
+                  icon="??"
                   action={() => {
                     setView("photolibrary");
                     window.scrollTo(0, 0);
@@ -5417,7 +5453,7 @@ function App() {
                       <span>
                         {r.course ||
                           `${r.grade_level} ${r.section_name}`}{" "}
-                        ‚Ä¢ Request #{r.id}
+                        ï Request #{r.id}
                       </span>
                     </div>
                     <div className="request-alert-actions">
@@ -5446,8 +5482,8 @@ function App() {
               <div>
                 <h2>Smart ID 51 / CR80 export</h2>
                 <p>
-                  Front and back previews use the supplied 642 √ó 1013 design
-                  proportion. Export is rendered at 3√ó for high-resolution PNG
+                  Front and back previews use the supplied 642 ◊ 1013 design
+                  proportion. Export is rendered at 3◊ for high-resolution PNG
                   or JPG transfer into the card software.
                 </p>
               </div>
@@ -5455,12 +5491,12 @@ function App() {
                 <div>
                   FRONT
                   <br />
-                  <small>54 √ó 85.6 mm</small>
+                  <small>54 ◊ 85.6 mm</small>
                 </div>
                 <div>
                   BACK
                   <br />
-                  <small>54 √ó 85.6 mm</small>
+                  <small>54 ◊ 85.6 mm</small>
                 </div>
               </div>
             </section>
@@ -5477,7 +5513,7 @@ function App() {
                     value={card.template_id || ""}
                     onChange={(e) => update("template_id", e.target.value)}
                   >
-                    <option value="">‚Äî Default LSC design (no template) ‚Äî</option>
+                    <option value="">ó Default LSC design (no template) ó</option>
                     {templates
                       .filter((t) => t.id_type === card.id_type)
                       .map((t) => (
@@ -5490,10 +5526,10 @@ function App() {
                   <small>
                     {card.template_id
                       ? "The uploaded design is used as a 100% exact copy. Only the data zones are drawn on top."
-                      : "No template selected ‚Äî the built-in LSC design is used."}
+                      : "No template selected ó the built-in LSC design is used."}
                     {templates.every((t) => t.id_type !== card.id_type) && (
                       <>
-                        {" "}No custom templates exist for {typeTitles[card.id_type]} yet ‚Äî add one
+                        {" "}No custom templates exist for {typeTitles[card.id_type]} yet ó add one
                         in the Templates tab (a template only appears for its own department).
                       </>
                     )}
@@ -5589,1725 +5625,92 @@ function App() {
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
                     onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      setMsg("");
-                      const fd = new FormData();
-                      fd.append("photo", file);
-                      if (card.id) fd.append("student_id", card.id);
-                      const uploadApi = card.id ? "uploadPhoto" : "uploadPhoto";
-                      api(uploadApi, { method: "POST", body: fd })
-                        .then((r) => {
-                          setCard((p) => ({
-                            ...p,
-                            photo_path: r.path,
-                            preferred_photo_id: r.photo_id || p.preferred_photo_id,
-                          }));
-                          setMsg("Photo uploaded. The template photo area will crop/resize it to fit when the ID is generated.");
-                        })
-                        .catch((err) => setMsg(err.message));
-                    }}
-                  />
-                  {card.photo_path ? (
-                    <small>Photo uploaded successfully.</small>
-                  ) : (
-                    <small>The template photo area will crop/resize this photo to fit when the ID is generated.</small>
-                  )}
-                </label>
-                <div className="cid-photo-selector">
-                  <details open={!card.id}>
-                    <summary>
-                      ID Picture ‚Äî Search &amp; select from Photo Library
-                      {card.id > 0 ? ` (${card.photo_count || 0} photos)` : " (all students)"}
-                    </summary>
-                    <PhotoSelector
-                      cardId={card.id}
-                      selectedPhotoId={card.preferred_photo_id}
-                      pendingPhotoId={pendingPhotoId}
-                      onSelect={(photoId, path, photo) => {
-                        setCard((p) => ({
-                          ...p,
-                          preferred_photo_id: photoId,
-                          photo_path: path,
-                          photo_count: p.id
-                            ? p.photo_count
-                            : p.photo_count || 1,
-                        }));
-                        /* Pre-save pick: remember it so save() can clone the
-                         * library photo into the new student's library. */
-                        if (!card.id && photoId) {
-                          setPendingPhotoId(photoId);
-                          setMsg(
-                            "Photo selected from the library. It will be attached to this student when you save the record.",
-                          );
-                        } else {
-                          setMsg("Photo selected for ID.");
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setMsg("");
+                        /* For new cards (no server ID yet), defer the upload
+                         * until the user clicks Save. Store the file locally
+                         * so nothing is sent to the server prematurely. */
+                        if (!card.id) {
+                          const url = URL.createObjectURL(file);
+                          setPendingPhotoFile(file);
+                          setCard((p) => ({ ...p, photo_path: url }));
+                          setMsg("Photo ready - will be uploaded when you save.");
+                          return;
                         }
-                      }}
-                      api={api}
-                      backendUrl={BACKEND_URL}
-                    />
-                  </details>
-                </div>
-              </div>
-              <h2>Back ID Details</h2>
-              <div className="form-grid">
-                <Field
-                  label="Address Line 1"
-                  name="address_line1"
-                  value={card.address_line1}
-                  onChange={update}
-                  full
-                />
-                <Field
-                  label="Address Line 2"
-                  name="address_line2"
-                  value={card.address_line2}
-                  onChange={update}
-                  full
-                />
-                <Field
-                  label="Emergency Contact"
-                  name="emergency_contact"
-                  value={card.emergency_contact}
-                  onChange={update}
-                />
-                <Field
-                  label="Emergency Phone"
-                  name="emergency_phone"
-                  value={card.emergency_phone}
-                  onChange={update}
-                />
-                <div className="field full">
-                  <span>Authorized Signatory</span>
-                  <input
-                    type="text"
-                    value={DEPARTMENT_SIGNATORIES[card.id_type] || ""}
-                    readOnly
-                  />
-                </div>
-              </div>
-            </section>
-            <aside className="preview-panel">
-              <div className="preview-head">
-                <b>SMART ID 51 PREVIEW</b>
-                <span>Front + Back</span>
-              </div>
-              <div className="status-bar">
-                <span
-                  className={
-                    "badge card-status-" + cardStatus(card.status).toLowerCase()
-                  }
-                >
-                  Status: {cardStatus(card.status)}
-                </span>
-                {card.status === "printed" && card.print_count > 0 && (
-                  <small className="print-meta">
-                    Printed √ó{card.print_count}
-                    {card.printed_at
-                      ? ` ¬∑ ${formatDateTime(card.printed_at)}`
-                      : ""}
-                  </small>
-                )}
-                {card.status === "released" && (
-                  <small className="print-meta">
-                    Released
-                    {card.released_by_name ? ` by ${card.released_by_name}` : ""}
-                    {card.released_at
-                      ? ` ¬∑ ${formatDateTime(card.released_at)}`
-                      : ""}
-                    {card.student_received ? " ¬∑ student received" : ""}
-                  </small>
-                )}
-                {card.id &&
-                  card.status !== "done" &&
-                  card.status !== "printed" &&
-                  card.status !== "released" && (
-                    <button
-                      className="primary btn-done"
-                      onClick={markCardDone}
-                      disabled={loading}
-                    >
-                      ‚úì Mark as Done
-                    </button>
+                        const fd = new FormData();
+                        fd.append("photo", file);
+                        fd.append("student_id", card.id);
+                        api("uploadPhoto", { method: "POST", body: fd })
+                          .then((r) => {
+                            setCard((p) => ({
+                              ...p,
+                              photo_path: r.path,
+                              preferred_photo_id: r.photo_id || p.preferred_photo_id,
+                            }));
+                            setMsg("Photo uploaded successfully.");
+                          })
+                          .catch((err) => setMsg(err.message));
+                          }}
+                        />
+                      </label>
+                    </div>
                   )}
-              </div>
-              <div className="preview-card-wrap">
-                {(() => {
-                  const tpl = templates.find(
-                    (t) => String(t.id) === String(card.template_id),
-                  );
-                  if (tpl && tpl.front_image) {
-                    return (
-                      <>
-                        <TemplateCard card={card} template={tpl} side="front" />
-                        {tpl.back_image ? (
-                          <TemplateCard card={card} template={tpl} side="back" />
-                        ) : (
-                          <BackCard card={card} />
-                        )}
-                      </>
-                    );
-                  }
-                  return (
-                    <>
-                      <FrontCard card={card} />
-                      <BackCard card={card} />
-                    </>
-                  );
-                })()}
-              </div>
-              <div className="export-box">
-                <b>Direct print ‚Äî Smart ID 51 (dual side)</b>
-                <button
-                  className="primary print-btn"
-                  onClick={printDualSide}
-                  disabled={printing}
-                >
-                  {printing ? "Preparing print‚Ä¶" : "üñ® Print Front + Back"}
-                </button>
-                <small>
-                  Sends ONE job to the Smart ID 51: page 1 = FRONT (colour),
-                  page 2 = BACK (black &amp; white). The printer driver handles
-                  duplex and panel selection. Every print is recorded in the{" "}
-                  <b>Print History</b> ‚Äî reprints require a reason.
-                </small>
-              </div>
-              {card.id &&
-                (card.status === "printed" || card.status === "released") && (
-                  <div className="export-box">
-                    {card.status === "printed" ? (
-                      <>
-                        <b>Release ID</b>
-                        <label className="release-notes">
-                          <span>Release notes (optional)</span>
-                          <textarea
-                            rows={2}
-                            value={releaseNotes}
-                            onChange={(e) => setReleaseNotes(e.target.value)}
-                            placeholder="e.g. Claimed by the student with school ID"
-                          />
-                        </label>
-                        <label className="release-check">
-                          <input
-                            type="checkbox"
-                            checked={studentReceived}
-                            onChange={(e) =>
-                              setStudentReceived(e.target.checked)
-                            }
-                          />{" "}
-                          Student received the ID
-                        </label>
-                        <button
-                          className="primary release-btn"
-                          onClick={releaseCardNow}
-                          disabled={loading}
-                        >
-                          ‚úÖ Release ID
-                        </button>
-                        <small>
-                          Marks the ID as <b>Released</b>, recording who
-                          released it, when, and any notes. Requires
-                          confirmation.
-                        </small>
-                      </>
-                    ) : (
-                      <>
-                        <b>Release information</b>
-                        <small className="release-info">
-                          Released by{" "}
-                          <b>
-                            {card.released_by_name ||
-                              (card.released_by
-                                ? `user #${card.released_by}`
-                                : "unknown")}
-                          </b>
-                          {card.released_at
-                            ? ` on ${formatDateTime(card.released_at)}`
-                            : ""}
-                          {card.release_notes ? ` ‚Äî ‚Äú${card.release_notes}‚Äù` : ""}
-                          {" ¬∑ "}
-                          {card.student_received
-                            ? "Student received"
-                            : "Student receipt not confirmed"}
-                        </small>
-                      </>
-                    )}
-                  </div>
                 )}
-              <div className="export-box">
-                <b>Export for Smart ID software</b>
-                <ExportButtons />{" "}
-                <small>
-                  Output is 1276 √ó 2022 px at 600 DPI ‚Äî exact CR80 high-resolution print.
-                  Pure white background, no shadows or borders.
-                </small>
+              </section>
               </div>
-            </aside>
+            )}
+            {view === "requests" && (
+          <div className="records">
+            <h2>Lost ID Reprint Requests</h2>
+            <p>Manage lost ID reprint requests submitted by students.</p>
+          </div>
+        )}
+        {view === "printhistory" && (
+          <div className="records">
+            <h2>Print History</h2>
+            <p>View print job history for student IDs.</p>
           </div>
         )}
         {view === "import" && (
-          <section className="import-section">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setView("dashboard");
-                  setImportFile(null);
-                  setImportPreview(null);
-                  setImportResult(null);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <button
-                className="import-template-btn"
-                onClick={handleTemplateDownload}
-              >
-                üìã Download Template
-              </button>
-            </div>
-
-            <div className="import-upload-area">
-              <h2>Import Students from CSV / Excel</h2>
-              <p>
-                Upload a .csv, .xlsx, or .xls file containing student records.
-                The system will validate the data, detect duplicates, and show a
-                preview before importing.
-              </p>
-
-              <label className="import-file-label">
-                <input
-                  type="file"
-                  accept=".csv,.xlsx,.xls"
-                  onChange={handleImportUpload}
-                  disabled={importLoading}
-                />
-                <span className="import-file-button">
-                  {importLoading ? "Uploading..." : "üìÅ Choose File"}
-                </span>
-                <span className="import-file-name">
-                  {importFile ? importFile.name : "No file selected"}
-                </span>
-              </label>
-
-              {importPreview && (
-                <div className="import-preview">
-                  <div className="import-summary">
-                    <div className="import-stat import-stat-valid">
-                      <span className="import-stat-count">{importPreview.counts.valid}</span>
-                      <span className="import-stat-label">Valid</span>
-                    </div>
-                    <div className="import-stat import-stat-duplicate">
-                      <span className="import-stat-count">{importPreview.counts.duplicate}</span>
-                      <span className="import-stat-label">Duplicates</span>
-                    </div>
-                    <div className="import-stat import-stat-invalid">
-                      <span className="import-stat-count">{importPreview.counts.invalid}</span>
-                      <span className="import-stat-label">Invalid</span>
-                    </div>
-                    <div className="import-stat import-stat-total">
-                      <span className="import-stat-count">{importPreview.counts.total}</span>
-                      <span className="import-stat-label">Total</span>
-                    </div>
-                  </div>
-
-                  {importPreview.counts.valid > 0 && (
-                    <button
-                      className="primary import-commit-btn"
-                      onClick={handleImportCommit}
-                      disabled={importLoading}
-                    >
-                      {importLoading ? "Importing..." : `Import ${importPreview.counts.valid} Students`}
-                    </button>
-                  )}
-
-                  <div className="import-preview-table-container">
-                    <table className="import-preview-table">
-                      <thead>
-                        <tr>
-                          <th>Row</th>
-                          <th>Status</th>
-                          <th>Student Name</th>
-                          <th>Student Number</th>
-                          <th>Details</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {importPreview.rows.map((r, i) => (
-                          <tr key={i} className={`import-row-${r.status}`}>
-                            <td>{r.row}</td>
-                            <td>
-                              <span className={`import-badge import-badge-${r.status}`}>
-                                {r.status}
-                              </span>
-                            </td>
-                            <td>{r.data.student_name}</td>
-                            <td>{r.data.student_number}</td>
-                            <td>
-                              {r.errors.length > 0 && (
-                                <ul className="import-errors">
-                                  {r.errors.map((e, j) => (
-                                    <li key={j}>{e}</li>
-                                  ))}
-                                </ul>
-                              )}
-                              {r.warnings.length > 0 && (
-                                <ul className="import-warnings">
-                                  {r.warnings.map((w, j) => (
-                                    <li key={j}>{w}</li>
-                                  ))}
-                                </ul>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
-
-              {importResult && (
-                <div className="import-result">
-                  <h3>‚úÖ Import Complete</h3>
-                  <p>{importResult.message}</p>
-                  <button
-                    className="primary"
-                    onClick={handleGenerateIds}
-                  >
-                    Generate IDs for Imported Students
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
+          <div className="records">
+            <h2>Import Students</h2>
+            <p>Import student records from CSV or Excel files.</p>
+          </div>
         )}
-        {view === "records" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setFilter("");
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-
-              <input
-                placeholder="Search student name, ID, LRN..."
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              />
-
-              <select
-                className="status-filter"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <option value="">All</option>
-                <option value="created">Created (Request)</option>
-                <option value="done">Done (Review)</option>
-                <option value="edited">Edited</option>
-                <option value="printed">Printed (Approved)</option>
-                <option value="released">Released</option>
-              </select>
-
-              <button className="primary" onClick={() => create("COLLEGE")}>
-                + Create New ID
-              </button>
-              {user.role === "admin" && (
-                <button
-                  className="bulk-btn"
-                  onClick={() => {
-                    setBulkModalOpen(true);
-                    setBulkSelected(shown.map((r) => r.id));
-                    setBulkPreview(null);
-                    setBulkResults(null);
-                    setBulkTemplateId("");
-                  }}
-                  title="Select the visible students and generate all their IDs at once"
-                >
-                  üóúÔ∏è Bulk Generate IDs
-                </button>
-              )}
-              <span
-                className="bp-sel-chip"
-                title="IDs ticked for batch printing"
-              >
-                {printSel.length} selected
-                {printSel.length > 0 && (
-                  <button
-                    onClick={() => setPrintSel([])}
-                    title="Clear selection"
-                  >
-                    ‚úï
-                  </button>
-                )}
-              </span>
-              <button
-                className="primary"
-                onClick={openBatchPrint}
-                disabled={printEligibleSelected.length === 0 || bulkPrintOpen}
-                title="Print every ticked ID as ONE Smart ID 51 job (front + back per card)"
-              >
-                üñ® Print Selected
-                {printEligibleSelected.length > 0
-                  ? ` (${printEligibleSelected.length})`
-                  : ""}
-              </button>
-              <button
-                onClick={printAllEligible}
-                disabled={shownEligible.length === 0 || bulkPrintOpen}
-                title="Tick every printable ID in the current list and open the batch print dialog"
-              >
-                Print All Eligible ({shownEligible.length})
-              </button>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th className="bp-col-check">
-                    <input
-                      type="checkbox"
-                      checked={allShownEligibleSelected}
-                      onChange={(e) => togglePrintAll(e.target.checked)}
-                      title="Select all printable rows in the list"
-                    />
-                  </th>
-                  <th>Name</th>
-                  <th>Department</th>
-                  <th>Course / Grade</th>
-                  <th>ID / LRN</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shown.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" style={{ textAlign: "center", padding: "28px" }}>
-                      {filter
-                        ? "No saved IDs match your search."
-                        : "No saved student IDs yet."}
-                    </td>
-                  </tr>
-                ) : (
-                  shown.map((x) => (
-                    <tr key={x.id}>
-                      <td className="bp-col-check">
-                        <input
-                          type="checkbox"
-                          checked={printSel.includes(x.id)}
-                          disabled={!eligibleForPrint(x)}
-                          title={
-                            eligibleForPrint(x)
-                              ? "Select for batch printing"
-                              : "Released IDs can no longer be printed"
-                          }
-                          onChange={(e) =>
-                            togglePrintRow(x.id, e.target.checked)
-                          }
-                        />
-                      </td>
-                      <td>{x.student_name}</td>
-                      <td>{typeTitles[x.id_type]}</td>
-                      <td>{x.course || `${x.grade_level} ${x.section_name}`}</td>
-                      <td>{x.student_number || x.student_id_number || x.lrn}</td>
-                      <td>
-                        <span
-                          className={
-                            "badge card-status-" +
-                            cardStatus(x.status).toLowerCase()
-                          }
-                          title={
-                            x.status === "printed" && x.printed_at
-                              ? `Printed √ó${x.print_count} ¬∑ ${formatDateTime(x.printed_at)}`
-                              : x.status === "released"
-                                ? `Released${x.released_by_name ? ` by ${x.released_by_name}` : ""}${x.released_at ? ` ¬∑ ${formatDateTime(x.released_at)}` : ""}`
-                                : undefined
-                          }
-                        >
-                          {cardStatus(x.status)}
-                        </span>
-                      </td>
-                      <td>
-                        <button onClick={() => edit(x.id)}>Edit / View</button>
-                        <button className="danger" onClick={() => del(x.id)}>
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </section>
+        {view === "users" && (
+          <div className="records">
+            <h2>User Accounts</h2>
+            <p>Manage staff user accounts and roles.</p>
+          </div>
         )}
-        {view === "users" && user.role === "admin" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <input
-                placeholder="Search users..."
-                value={userFilter}
-                onChange={(e) => setUserFilter(e.target.value)}
-              />
-              <button className="primary" onClick={() => openUserForm()}>
-                + New User
-              </button>
-            </div>
-            {userFormOpen && (
-              <div className="user-form">
-                <h2>
-                  {userForm.id
-                    ? "Edit User Account"
-                    : "Create New User Account"}
-                </h2>
-                <div className="form-grid">
-                  <Field
-                    label="Full Name"
-                    name="full_name"
-                    value={userForm.full_name}
-                    onChange={updateUserForm}
-                  />
-                  <Field
-                    label="Username / Email"
-                    name="username"
-                    value={userForm.username}
-                    onChange={updateUserForm}
-                  />
-                  <Select
-                    label="Role"
-                    name="role"
-                    value={userForm.role}
-                    onChange={updateUserForm}
-                  >
-                    <option value="staff">Staff</option>
-                    <option value="admin">Administrator</option>
-                  </Select>
-                  <Field
-                    label={
-                      userForm.id
-                        ? "New Password (leave blank to keep current)"
-                        : "Password"
-                    }
-                    name="password"
-                    type="password"
-                    value={userForm.password}
-                    onChange={updateUserForm}
-                  />
-                  <label className="field">
-                    <span>Status</span>
-                    <select
-                      value={userForm.is_active ? "1" : "0"}
-                      onChange={(e) =>
-                        updateUserForm("is_active", e.target.value === "1")
-                      }
-                    >
-                      <option value="1">Active</option>
-                      <option value="0">Deactivated</option>
-                    </select>
-                  </label>
-                </div>
-                <div className="user-form-actions">
-                  <button
-                    className="primary"
-                    onClick={saveUserForm}
-                    disabled={loading}
-                  >
-                    {loading
-                      ? "Saving..."
-                      : userForm.id
-                        ? "Update User"
-                        : "Create User"}
-                  </button>
-                  <button onClick={() => setUserFormOpen(false)}>Cancel</button>
-                </div>
-              </div>
-            )}
-            <table>
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>Username</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shownUsers.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="5"
-                      style={{ textAlign: "center", padding: "28px" }}
-                    >
-                      {userFilter
-                        ? "No users match your search."
-                        : "No user accounts yet."}
-                    </td>
-                  </tr>
-                ) : (
-                  shownUsers.map((u) => {
-                    const active = String(u.is_active) === "1";
-                    return (
-                      <tr key={u.id}>
-                        <td>{u.full_name}</td>
-                        <td>{u.username}</td>
-                        <td>
-                          <span className={"badge " + u.role}>
-                            {u.role === "admin" ? "Administrator" : "Staff"}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={"badge " + (active ? "active" : "inactive")}
-                          >
-                            {active ? "Active" : "Deactivated"}
-                          </span>
-                        </td>
-                        <td>
-                          <button onClick={() => openUserForm(u)}>
-                            Edit / Reset Password
-                          </button>
-                          {active && (
-                            <button
-                              className="danger"
-                              onClick={() => deactivateUserAccount(u.id)}
-                            >
-                              Deactivate
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </section>
+        {view === "audit" && (
+          <div className="records">
+            <h2>Audit Logs</h2>
+            <p>View system audit trail and activity log.</p>
+          </div>
         )}
-        {view === "requests" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setReqFilter("");
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <input
-                placeholder="Search name, course, grade, status..."
-                value={reqFilter}
-                onChange={(e) => setReqFilter(e.target.value)}
-              />
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Request</th>
-                  <th>Student</th>
-                  <th>Course / Grade</th>
-                  <th>ID / LRN</th>
-                  <th>Status</th>
-                  <th>Receipt</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shownRequests.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="8"
-                      style={{ textAlign: "center", padding: "28px" }}
-                    >
-                      {reqFilter
-                        ? "No lost ID requests match your search."
-                        : "No lost ID requests yet."}
-                    </td>
-                  </tr>
-                ) : (
-                  shownRequests.map((r) => {
-                    const done =
-                      r.status === "reprinted" || r.status === "rejected";
-                    return (
-                      <tr key={r.id}>
-                        <td>
-                          <b>#{r.id}</b>
-                        </td>
-                        <td>{r.student_name}</td>
-                        <td>
-                          {r.course ||
-                            `${r.grade_level} ${r.section_name}` || "‚Äî"}
-                        </td>
-                        <td>
-                          {r.student_number ||
-                            r.student_id_number ||
-                            r.lrn ||
-                            "‚Äî"}
-                        </td>
-                        <td>
-                          <span className={"badge req-" + r.status}>
-                            {r.status}
-                          </span>
-                        </td>
-                        <td>
-                          {r.receipt_path ? (
-                            <a
-                              href={assetUrl(r.receipt_path)}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              View
-                            </a>
-                          ) : (
-                            "‚Äî"
-                          )}
-                        </td>
-                        <td>{new Date(r.created_at).toLocaleString()}</td>
-                        <td>
-                          <button onClick={() => editRequest(r)}>
-                            Edit ID & Export
-                          </button>
-                          {r.status !== "approved" && !done && (
-                            <button
-                              onClick={() => setRequestStatus(r.id, "approved")}
-                            >
-                              Approve
-                            </button>
-                          )}
-                          {!done && (
-                            <button
-                              onClick={() =>
-                                setRequestStatus(r.id, "reprinted")
-                              }
-                            >
-                              Mark Printed
-                            </button>
-                          )}
-                          {r.status !== "rejected" &&
-                            r.status !== "reprinted" && (
-                              <button
-                                className="danger"
-                                onClick={() =>
-                                  setRequestStatus(r.id, "rejected")
-                                }
-                              >
-                                Reject
-                              </button>
-                            )}
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </section>
+        {view === "templates" && (
+          <div className="records">
+            <h2>ID Templates</h2>
+            <p>Manage ID card design templates.</p>
+          </div>
         )}
-        {view === "templates" && user.role === "admin" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setTemplateFilter("");
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <input
-                placeholder="Search templates..."
-                value={templateFilter}
-                onChange={(e) => setTemplateFilter(e.target.value)}
-              />
-              <button className="primary" onClick={() => openTemplateDesigner(null)}>
-                Ôºã New Template
-              </button>
-            </div>
-            {shownTemplates.length === 0 ? (
-              <div className="tpl-empty">
-                <b>No templates yet.</b>
-                <p>
-                  Upload an existing ID design (PNG/JPG) to use it as a{" "}
-                  <b>100% exact-copy template</b>. Place data zones on the
-                  image, and new IDs of that department will automatically use
-                  the template.
-                </p>
-              </div>
-            ) : (
-              <div className="tpl-grid">
-                {shownTemplates.map((t) => {
-                  const zones = t.fields_json || [];
-                  const isActive = String(t.is_active) === "1";
-                  const isSystem = String(t.is_system) === "1";
-                  return (
-                    <div className="tpl-card" key={t.id}>
-                      <div className="tpl-thumb">
-                        {t.front_image ? (
-                          <img src={assetUrl(t.front_image)} alt={t.name} />
-                        ) : (
-                          <span className="tpl-thumb-empty">
-                            {isSystem ? "Built-in CSS design" : "No image"}
-                          </span>
-                        )}
-                        {isSystem && (
-                          <span className="tpl-badge-system">ORIGINAL</span>
-                        )}
-                        {isActive && <span className="tpl-badge-active">ACTIVE</span>}
-                      </div>
-                      <div className="tpl-info">
-                        <b>{t.name}</b>
-                        <span className="tpl-dept">{typeTitles[t.id_type]}</span>
-<small>
-                          {isSystem ? ("The built-in Lake Shore Colleges design ‚Äî protected and cannot be deleted.") : (<> {zones.length} data zone{zones.length === 1 ? "" : "s"} ‚Ä¢ {" "} {t.back_image ? "front + back" : "front only"}</>)}
-                        </small>
-                      </div>
-                      <div className="tpl-actions">
-                        {isSystem ? (
-                          <span className="tpl-protected">
-                            üîí Original template (protected)
-                          </span>
-                        ) : (
-                          <button onClick={() => openTemplateDesigner(t)}>
-                            Edit Design
-                          </button>
-                        )}
-                        {!isActive && (
-                          <button
-                            className="primary"
-                            onClick={() => setActiveTemplateRecord(t.id)}
-                          >
-                            Set Active
-                          </button>
-                        )}
-                        {!isSystem && (
-                          <button
-                            className="danger"
-                            onClick={() => deleteTemplateRecord(t.id)}
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-        )}
-        {editingTemplate && (
-          <TemplateDesigner
-            initial={editingTemplate}
-            onCancel={() => setEditingTemplate(null)}
-            onSave={saveTemplateRecord}
+        {view === "photoprocessing" && (
+          <PhotoProcessingView
+            user={user}
+            api={api}
+            assetUrl={assetUrl}
+            onBack={() => setView("dashboard")}
           />
         )}
-        {view === "audit" && user.role === "admin" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <input
-                placeholder="Search action, entity, values or user..."
-                value={auditQ}
-                onChange={(e) => {
-                  setAuditPage(1);
-                  setAuditQ(e.target.value);
-                }}
-              />
-            </div>
-            <div className="audit-filters">
-              <label>
-                <span>Action</span>
-                <select
-                  value={auditAction}
-                  onChange={(e) => {
-                    setAuditPage(1);
-                    setAuditAction(e.target.value);
-                  }}
-                >
-                  <option value="">All actions</option>
-                  {auditActions.map((a) => (
-                    <option key={a} value={a}>
-                      {a}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>User</span>
-                <select
-                  value={auditUserQ}
-                  onChange={(e) => {
-                    setAuditPage(1);
-                    setAuditUserQ(e.target.value);
-                  }}
-                >
-                  <option value="">All users</option>
-                  {users.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.username} ({u.role})
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>From</span>
-                <input
-                  type="date"
-                  value={auditFrom}
-                  onChange={(e) => {
-                    setAuditPage(1);
-                    setAuditFrom(e.target.value);
-                  }}
-                />
-              </label>
-              <label>
-                <span>To</span>
-                <input
-                  type="date"
-                  value={auditTo}
-                  onChange={(e) => {
-                    setAuditPage(1);
-                    setAuditTo(e.target.value);
-                  }}
-                />
-              </label>
-            </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Date / Time</th>
-                  <th>User</th>
-                  <th>Action</th>
-                  <th>Entity</th>
-                  <th>Details</th>
-                  <th>IP address</th>
-                </tr>
-              </thead>
-              <tbody>
-                {auditRows.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="audit-empty">
-                      No audit entries match the current filters.
-                    </td>
-                  </tr>
-                )}
-                {auditRows.map((l) => (
-                  <tr
-                    key={l.id}
-                    className="audit-row"
-                    onClick={() => setAuditDetail(l)}
-                  >
-                    <td>{formatDateTime(l.created_at)}</td>
-                    <td>
-                      {l.username || `#${l.user_id ?? "‚Äî"}`}{" "}
-                      {l.user_role && (
-                        <span className="audit-role">{l.user_role}</span>
-                      )}
-                    </td>
-                    <td>
-                      <span
-                        className={"audit-badge audit-" + auditTone(l.action)}
-                      >
-                        {l.action}
-                      </span>
-                    </td>
-                    <td>
-                      {l.entity_type}
-                      {l.entity_id ? ` #${l.entity_id}` : ""}
-                    </td>
-                    <td className="audit-summary">{auditSummary(l)}</td>
-                    <td>{l.ip_address || "‚Äî"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="audit-pager">
-              <span>
-                Page {auditPage} of {auditPages || 1} ¬∑ {auditTotal} entries
-              </span>
-              <div>
-                <button
-                  disabled={auditPage <= 1}
-                  onClick={() => setAuditPage((p) => Math.max(1, p - 1))}
-                >
-                  ‚Üê Prev
-                </button>
-                <button
-                  disabled={auditPage >= auditPages}
-                  onClick={() => setAuditPage((p) => p + 1)}
-                >
-                  Next ‚Üí
-                </button>
-              </div>
-            </div>
-            {auditDetail && (
-              <div
-                className="audit-modal-overlay"
-                onClick={() => setAuditDetail(null)}
-              >
-                <div
-                  className="audit-modal"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="audit-modal-head">
-                    <h3>
-                      {auditDetail.action.replace(/_/g, " ")} ‚Äî{" "}
-                      {auditDetail.entity_type}
-                      {auditDetail.entity_id
-                        ? ` #${auditDetail.entity_id}`
-                        : ""}
-                    </h3>
-                    <button onClick={() => setAuditDetail(null)}>‚úï</button>
-                  </div>
-                  <p className="audit-modal-meta">
-                    {fmtAuditDate(auditDetail.created_at)} ¬∑{" "}
-                    {auditDetail.username || "system"}
-                    {auditDetail.user_role
-                      ? ` (${auditDetail.user_role})`
-                      : ""} ¬∑ IP {auditDetail.ip_address || "‚Äî"}
-                    <br />
-                    <span className="audit-public">{auditDetail.user_agent}</span>
-                  </p>
-                  {renderAuditValues(auditDetail)}
-                </div>
-              </div>
-            )}
-          </section>
+        {view === "photolibrary" && (
+          <PhotoLibraryView
+            user={user}
+            onBack={() => setView("dashboard")}
+          />
         )}
-        {view === "printhistory" && user.role === "admin" && (
-          <section className="records">
-            <div className="record-toolbar">
-              <button
-                onClick={() => {
-                  setView("dashboard");
-                  window.scrollTo(0, 0);
-                }}
-              >
-                ‚Üê Back to Dashboard
-              </button>
-              <input
-                placeholder="Search student, student number, reason or staff..."
-                value={phQ}
-                onChange={(e) => {
-                  setPhPage(1);
-                  setPhQ(e.target.value);
-                }}
-              />
-            </div>
-            <div className="audit-filters">
-              <label>
-                <span>Printed by</span>
-                <select
-                  value={phUser}
-                  onChange={(e) => {
-                    setPhPage(1);
-                    setPhUser(e.target.value);
-                  }}
-                >
-                  <option value="">All users</option>
-                  {users.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.username} ({u.role})
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Type</span>
-                <select
-                  value={phType}
-                  onChange={(e) => {
-                    setPhPage(1);
-                    setPhType(e.target.value);
-                  }}
-                >
-                  <option value="">Original + Reprint</option>
-                  <option value="original">Original</option>
-                  <option value="reprint">Reprint</option>
-                </select>
-              </label>
-              <label>
-                <span>From</span>
-                <input
-                  type="date"
-                  value={phFrom}
-                  onChange={(e) => {
-                    setPhPage(1);
-                    setPhFrom(e.target.value);
-                  }}
-                />
-              </label>
-              <label>
-                <span>To</span>
-                <input
-                  type="date"
-                  value={phTo}
-                  onChange={(e) => {
-                    setPhPage(1);
-                    setPhTo(e.target.value);
-                  }}
-                />
-              </label>
-            </div>
-            {phSummary && (
-              <div className="ph-summary">
-                <div className="ph-stat">
-                  <b>{phSummary.month?.total ?? 0}</b>
-                  <span>Printed this month</span>
-                </div>
-                <div className="ph-stat">
-                  <b>{phSummary.month?.original ?? 0}</b>
-                  <span>Originals this month</span>
-                </div>
-                <div className="ph-stat">
-                  <b>{phSummary.month?.reprint ?? 0}</b>
-                  <span>Reprints this month</span>
-                </div>
-                <div className="ph-staff">
-                  <b>Prints per staff</b>
-                  {(phSummary.by_user || []).length === 0 ? (
-                    <span className="audit-public">No prints recorded yet.</span>
-                  ) : (
-                    phSummary.by_user.map((u) => (
-                      <span key={u.id} className="ph-staff-row">
-                        {u.full_name || u.username}: <b>{u.month_count}</b> this
-                        month ¬∑ <b>{u.total_count}</b> all-time
-                      </span>
-                    ))
-                  )}
-                </div>
-              </div>
-            )}
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Date / Time</th>
-                  <th>Student</th>
-                  <th>Printed By</th>
-                  <th>Type</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-              <tbody>
-                {phRows.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="audit-empty">
-                      No print jobs match the current filters.
-                    </td>
-                  </tr>
-                )}
-                {phRows.map((p) => (
-                  <tr key={p.id}>
-                    <td>{formatDateTime(p.printed_at)}</td>
-                    <td>
-                      {p.student_name || `ID record #${p.card_id}`}
-                      {(p.student_number || p.student_id_number) && (
-                        <span className="ph-student-no">
-                          {p.student_number || p.student_id_number}
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {p.full_name ||
-                        p.username ||
-                        (p.user_id ? `#${p.user_id}` : "system")}
-                      {p.user_role && (
-                        <span className="audit-role">{p.user_role}</span>
-                      )}
-                    </td>
-                    <td>
-                      <span className={"badge ph-" + p.print_type}>
-                        {p.print_type === "original" ? "Original" : "Reprint"}
-                      </span>
-                    </td>
-                    <td className="ph-reason">{p.reason || "‚Äî"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="audit-pager">
-              <span>
-                Page {phPage} of {phPages || 1} ¬∑ {phTotal} print jobs
-              </span>
-              <div>
-                <button
-                  disabled={phPage <= 1}
-                  onClick={() => setPhPage((p) => Math.max(1, p - 1))}
-                >
-                  ‚Üê Prev
-                </button>
-                <button
-                  disabled={phPage >= phPages}
-                  onClick={() => setPhPage((p) => p + 1)}
-                >
-                  Next ‚Üí
-                </button>
-              </div>
-            </div>
-          </section>
-        )}
-        {reprintOpen && (
-          <div
-            className="audit-modal-overlay"
-            onClick={printing ? undefined : () => setReprintOpen(false)}
-          >
-            <div className="audit-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="audit-modal-head">
-                <h3>Reprint ID ‚Äî {card.student_name || `#${card.id}`}</h3>
-                <button
-                  onClick={() => setReprintOpen(false)}
-                  disabled={printing}
-                >
-                  ‚úï
-                </button>
-              </div>
-              <p className="audit-modal-meta">
-                This ID was already printed {card.print_count} time(s)
-                {card.printed_at
-                  ? ` (last: ${formatDateTime(card.printed_at)})`
-                  : ""}
-                . Select a reason for the print history, then print.
-              </p>
-              <div className="audit-block">
-                <h4>Reprint reason</h4>
-                <div className="reason-choices">
-                  {["Damaged", "Lost", "Incorrect Information", "Other"].map(
-                    (r) => (
-                      <label
-                        key={r}
-                        className={
-                          "reason-choice" +
-                          (reprintChoice === r ? " selected" : "")
-                        }
-                      >
-                        <input
-                          type="radio"
-                          name="print-reason"
-                          value={r}
-                          checked={reprintChoice === r}
-                          onChange={() => setReprintChoice(r)}
-                          disabled={printing}
-                        />
-                        {r}
-                      </label>
-                    ),
-                  )}
-                </div>
-                {reprintChoice === "Other" && (
-                  <label className="field full">
-                    <span>Specify the reason</span>
-                    <input
-                      value={reprintText}
-                      onChange={(e) => setReprintText(e.target.value)}
-                      placeholder="e.g. Name correction requested by the registrar"
-                      maxLength={200}
-                      disabled={printing}
-                    />
-                  </label>
-                )}
-              </div>
-              <div className="reason-actions">
-                <button
-                  onClick={() => setReprintOpen(false)}
-                  disabled={printing}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="primary"
-                  disabled={
-                    printing ||
-                    (reprintChoice === "Other" && reprintText.trim() === "")
-                  }
-                  onClick={() =>
-                    doPrintDualSide(
-                      reprintChoice === "Other"
-                        ? reprintText.trim()
-                        : reprintChoice,
-                    )
-                  }
-                >
-                  {printing ? (
-                    <>
-                      <span className="s-spin" aria-hidden="true" />
-                      Preparing print‚Ä¶
-                    </>
-                  ) : (
-                    "üñ® Print Reprint"
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      {view === "photolibrary" && (
-        <PhotoLibraryView user={user} onBack={() => { setView("dashboard"); window.scrollTo(0, 0); }} />
-      )}
-      {view === "photoprocessing" && (
-        <PhotoProcessingView user={user} api={api} assetUrl={assetUrl} onBack={() => { setView("dashboard"); window.scrollTo(0, 0); }} />
-      )}
-      {bulkModalOpen && (
-        <BulkGenerateModal
-          records={shown}
-          templates={templates}
-          selected={bulkSelected}
-          setSelected={setBulkSelected}
-          preview={bulkPreview}
-          setPreview={setBulkPreview}
-          generating={bulkGenerating}
-          progress={bulkProgress}
-          templateId={bulkTemplateId}
-          setTemplateId={setBulkTemplateId}
-          validateFn={validateBulkStudents}
-          generateFn={runBulkGeneration}
-          onClose={() => {
-            if (!bulkGenerating) setBulkModalOpen(false);
-          }}
-        />
-      )}
-      {bulkPrintOpen && (
-        <BulkPrintModal
-          records={printEligibleSelected}
-          selected={printSel}
-          setSelected={setPrintSel}
-          printing={bpPrinting}
-          progress={bpProgress}
-          result={bpResult}
-          reasonChoice={bpChoice}
-          setReasonChoice={setBpChoice}
-          reasonText={bpText}
-          setReasonText={setBpText}
-          printFn={runBatchPrint}
-          onClose={() => {
-            if (!bpPrinting) setBulkPrintOpen(false);
-          }}
-        />
-      )}
       </main>
-    </div>
-  );
-}
-
-/* ================= Photo Selector (searchable dropdown for Create ID) =================
- * New record (cardId falsy)  -> global library via photoLibrarySearch (path-only pick,
- *   attached to the unsaved card; becomes permanent on Save since photo_path is saved).
- * Saved record (cardId truthy) -> per-student library via photoLibraryList with
- *   ownership-safe photoLibrarySetPreferred + quick upload. */
-function PhotoSelector({ cardId, selectedPhotoId, pendingPhotoId, onSelect, api, backendUrl }) {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState("");
-  const [searchQ, setSearchQ] = useState("");
-  const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState({ source: "", type: "", status: "" });
-  // Global (pre-save) search state ‚Äî only consulted when there is no saved card yet
-  const [gQ, setGQ] = useState("");
-  const [gRows, setGRows] = useState([]);
-  const [gLoading, setGLoading] = useState(false);
-  const [gTotal, setGTotal] = useState(0);
-  const [gSearched, setGSeached] = useState(false);
-
-  async function load() {
-    if (!cardId) { setPhotos([]); return; }
-    setLoading(true);
-    try {
-      const r = await api("photoLibraryList&student_id=" + cardId);
-      setPhotos(r.data || []);
-    } catch (e) { setMsg(e.message); }
-    setLoading(false);
-  }
-
-  // Reload when the card changes or a new photo becomes preferred (e.g. after upload)
-  useEffect(() => { load(); }, [cardId, selectedPhotoId]);
-
-  // ---- Global library search (pre-save mode: no student_id required) ----
-  async function searchGlobal() {
-    setGLoading(true);
-    setGSeached(true);
-    try {
-      const qs = new URLSearchParams({
-        q: gQ.trim(),
-        source: filters.source || "",
-        type: filters.type || "",
-        is_active: "1",
-        page: 1,
-        per_page: 12,
-      });
-      const r = await api("photoLibrarySearch&" + qs.toString());
-      setGRows(r.data || []);
-      setGTotal(r.total || 0);
-    } catch (e) { setMsg(e.message); }
-    setGLoading(false);
-  }
-
-  function pickGlobal(p) {
-    // Path-only attach: works before the student row exists. Save persists it
-    // via the card's photo_path column; the library link is made after save.
-    setOpen(false);
-    setSearchQ("");
-    onSelect(p.id, p.file_path, p);
-  }
-
-  function photoName(p) {
-    return (p.file_path || "").split("/").pop() || ("photo-" + p.id);
-  }
-
-  function backgroundLabel(p) {
-    const bi = p.background_info;
-    if (!bi || !bi.mode) return "";
-    if (bi.mode === "transparent") return "TRANSPARENT";
-    if (bi.mode === "white") return "WHITE";
-    if (bi.mode === "custom" && bi.color) return bi.color.toUpperCase();
-    return String(bi.mode).toUpperCase();
-  }
-
-  function formatDate(d) {
-    if (!d) return "";
-    const dt = new Date(String(d).replace(" ", "T"));
-    if (isNaN(dt)) return d;
-    return dt.toLocaleDateString() + " " + dt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  }
-
-  // Client-side filtering ‚Äî list is already server-scoped to this student only
-  const filtered = photos.filter((p) => {
-    const q = searchQ.trim().toLowerCase();
-    if (q && !(photoName(p).toLowerCase().includes(q) || String(p.id).includes(q))) return false;
-    if (filters.source && p.source !== filters.source) return false;
-    if (filters.type && p.type !== filters.type) return false;
-    if (filters.status === "active" && p.is_active !== 1) return false;
-    if (filters.status === "archived" && p.is_active === 1) return false;
-    return true;
-  });
-
-  const selectedPhoto = photos.find((p) => p.id === selectedPhotoId);
-  const pendingPhoto = !cardId && pendingPhotoId
-    ? (photos.find((p) => p.id === pendingPhotoId) || gRows.find((p) => p.id === pendingPhotoId) || null)
-    : null;
-
-  async function selectPhoto(p) {
-    setOpen(false);
-    setSearchQ("");
-    try {
-      await api("photoLibrarySetPreferred", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ photo_id: p.id, student_id: cardId }),
-      });
-      onSelect(p.id, p.file_path);
-    } catch (e) { setMsg(e.message); }
-  }
-
-  async function handleUpload(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const fd = new FormData();
-    fd.append("photo", file);
-    fd.append("student_id", cardId);
-    try {
-      const r = await api("photoLibraryUpload", { method: "POST", body: fd });
-      setMsg("Uploaded. Photo #" + r.photo_id);
-      await load();
-      // Auto-select the freshly uploaded photo
-      await selectPhoto({ id: r.photo_id, file_path: r.path, is_active: 1 });
-    } catch (err) { setMsg(err.message); }
-  }
-
-
-  return (
-    <div style={{ marginTop: 8 }}>
-      {/* Currently selected photo chip (saved card) */}
-      {selectedPhoto && (
-        <div className="cid-photo-chip">
-          <img src={`${backendUrl}/api.php?action=photoLibraryServe&id=${selectedPhoto.id}`} alt="Selected" />
-          <div>
-            <div className="cpo-name">Using: {photoName(selectedPhoto)}</div>
-            <div className="cpo-sub">
-              {selectedPhoto.source} ¬∑ {selectedPhoto.type} ¬∑ {selectedPhoto.width}√ó{selectedPhoto.height}
-              {backgroundLabel(selectedPhoto) ? " ¬∑ " + backgroundLabel(selectedPhoto) : ""}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Pending pick chip (new record, pre-save): shows the library photo
-        * that will be cloned into the new student's library on Save. */}
-      {!cardId && (pendingPhoto || selectedPhotoId) && (
-        <div className="cid-photo-chip">
-          {pendingPhoto ? (
-            <>
-              <img src={`${backendUrl}/api.php?action=photoLibraryServe&id=${pendingPhoto.id}`} alt="Pending" />
-              <div>
-                <div className="cpo-name">Selected: {photoName(pendingPhoto)} (Photo #{pendingPhoto.id})</div>
-                <div className="cpo-sub">
-                  {pendingPhoto.student_name ? pendingPhoto.student_name + " ¬∑ " : ""}
-                  {pendingPhoto.source} ¬∑ {pendingPhoto.type} ¬∑ {pendingPhoto.width}√ó{pendingPhoto.height}
-                  {" ¬∑ will be attached when you save"}
-                </div>
-              </div>
-            </>
-          ) : (
-            <div>
-              <div className="cpo-name">Selected: Photo #{selectedPhotoId}</div>
-              <div className="cpo-sub">Will be attached when you save this record.</div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* ---- Pre-save mode: global library search (no student row yet) ---- */}
-      {!cardId && (
-        <div className="cid-photo-presave">
-          <span className="cid-photo-selector-label">Photo Library ‚Äî all students</span>
-          <div className="cid-photo-presave-bar">
-            <input
-              type="text"
-              placeholder="Search name, ID number, or LRN..."
-              value={gQ}
-              onChange={(e) => setGQ(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); searchGlobal(); } }}
-            />
-            <button className="primary" onClick={searchGlobal} disabled={gLoading}>
-              {gLoading ? "Searching‚Ä¶" : "Search"}
-            </button>
-          </div>
-          <div className="cid-photo-filters cid-photo-presave-filters">
-            <select value={filters.source} onChange={(e) => setFilters({ ...filters, source: e.target.value })}>
-              <option value="">All Sources</option>
-              <option value="CREATE_ID">Create ID</option>
-              <option value="PHOTO_PROCESSING">Photo Processing</option>
-            </select>
-            <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}>
-              <option value="">All Types</option>
-              <option value="ORIGINAL">Original</option>
-              <option value="PROCESSED">Processed</option>
-            </select>
-          </div>
-          <div className="cid-photo-presave-list">
-            {gLoading && <div className="cid-photo-presave-empty">Searching photos...</div>}
-            {!gLoading && !gSearched && (
-              <div className="cid-photo-presave-empty">Search the photo library to pick an ID picture ‚Äî no need to save first.</div>
-            )}
-            {!gLoading && gSearched && gRows.length === 0 && (
-              <div className="cid-photo-presave-empty">No photos match your search. Try another name or ID.</div>
-            )}
-            {!gLoading && gRows.map((p) => (
-              <div key={p.id} className={"cid-photo-option" + (p.id === (pendingPhotoId || selectedPhotoId) ? " selected" : "")} onClick={() => pickGlobal(p)}>
-                <img src={`${backendUrl}/api.php?action=photoLibraryServe&id=${p.id}`} alt={p.type} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="cpo-name">{p.student_name || photoName(p)}</div>
-                  <div className="cpo-meta">
-                    <span className={"cpo-chip " + (p.source === "PHOTO_PROCESSING" ? "src-process" : "src-create")}>
-                      {p.source === "PHOTO_PROCESSING" ? "PHOTO_PROCESSING" : "CREATE_ID"}
-                    </span>
-                    <span className={"cpo-chip" + (p.type === "PROCESSED" ? " type-processed" : "")}>{p.type}</span>
-                    <span className="cpo-chip">{p.width}√ó{p.height}</span>
-                  </div>
-                  <div className="cpo-sub">{p.student_id_number || p.student_number || ""}{p.student_id_number || p.student_number ? " ¬∑ " : ""}{formatDate(p.created_at)}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {gSearched && gTotal > gRows.length && (
-            <small className="cid-photo-presave-hint">Showing {gRows.length} of {gTotal} matches ‚Äî refine your search to narrow results.</small>
-          )}
-        </div>
-      )}
-
-      {/* Searchable dropdown (saved card only) */}
-      {cardId ? (
-      <div className="cid-photo-select">
-        <input
-          type="text"
-          placeholder="Search Student Photos..."
-          value={searchQ}
-          onFocus={() => setOpen(true)}
-          onChange={(e) => { setSearchQ(e.target.value); setOpen(true); }}
-        />
-        {open && (
-          <>
-            <div className="cid-dropdown-backdrop" onClick={() => setOpen(false)} />
-            <div className="cid-photo-dropdown">
-              <div className="cid-photo-filters" style={{ padding: "8px 10px", borderBottom: "1px solid #eef2ef" }}>
-                <select value={filters.source} onChange={(e) => setFilters({ ...filters, source: e.target.value })}>
-                  <option value="">All Sources</option>
-                  <option value="CREATE_ID">Create ID</option>
-                  <option value="PHOTO_PROCESSING">Photo Processing</option>
-                </select>
-                <select value={filters.type} onChange={(e) => setFilters({ ...filters, type: e.target.value })}>
-                  <option value="">All Types</option>
-                  <option value="ORIGINAL">Original</option>
-                  <option value="PROCESSED">Processed</option>
-                </select>
-                <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })}>
-                  <option value="">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="archived">Archived</option>
-                </select>
-              </div>
-              {loading && <div style={{ padding: 10, fontSize: 12, color: "#8a948e" }}>Loading photos...</div>}
-              {!loading && filtered.length === 0 && (
-                <div style={{ padding: 12, fontSize: 12, color: "#8a948e" }}>
-                  {photos.length === 0 ? "No photos in library yet. Upload below or use Photo Processing." : "No photos match your search."}
-                </div>
-              )}
-              {!loading && filtered.map((p) => (
-                <div key={p.id} className={"cid-photo-option" + (p.id === selectedPhotoId ? " selected" : "")} onClick={() => selectPhoto(p)}>
-                  <img src={`${backendUrl}/api.php?action=photoLibraryServe&id=${p.id}`} alt={p.type} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="cpo-name">{photoName(p)}</div>
-                    <div className="cpo-meta">
-                      <span className={"cpo-chip " + (p.source === "PHOTO_PROCESSING" ? "src-process" : "src-create")}>
-                        {p.source === "PHOTO_PROCESSING" ? "PHOTO_PROCESSING" : "CREATE_ID"}
-                      </span>
-                      <span className={"cpo-chip" + (p.type === "PROCESSED" ? " type-processed" : "")}>{p.type}</span>
-                      {backgroundLabel(p) && <span className="cpo-chip">{backgroundLabel(p)}</span>}
-                      <span className="cpo-chip">{p.width}√ó{p.height}</span>
-                      {p.is_active !== 1 && <span className="cpo-chip status-archived">ARCHIVED</span>}
-                    </div>
-                    <div className="cpo-sub">{formatDate(p.created_at)}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-      ) : null}
-
-      {cardId ? (
-      <label className="pp-dropzone" style={{ marginTop: 8, padding: 10, fontSize: 11, display: "block" }}>
-        <div>üì∑ Quick Upload</div>
-        <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleUpload} style={{ display: "none" }} />
-      </label>
-      ) : (
-        <small className="cid-photo-presave-hint">Or upload a new photo above ‚Äî it will be saved with this record.</small>
-      )}
-      {msg && <div style={{ fontSize: 11, marginTop: 4 }}>{msg}</div>}
     </div>
   );
 }
@@ -7455,7 +5858,7 @@ function PhotoProcessingView({ user, api, assetUrl, onBack }) {
   }
 
   /* Save an uploaded file straight into the selected student's library.
-   * Runs automatically right after the photo is chosen ‚Äî there is no
+   * Runs automatically right after the photo is chosen ó there is no
    * separate name field or save button on this page. */
   async function savePhotoToStudent(file) {
     if (!selectedStudent || !file) return;
@@ -7476,11 +5879,11 @@ function PhotoProcessingView({ user, api, assetUrl, onBack }) {
       <div className="pp-page">
       <div className="pp-head">
         <button type="button" className="pp-back" onClick={() => { if (onBack) onBack(); }}>
-          ‚Üê Back to Dashboard
+          ? Back to Dashboard
         </button>
         <div className="pp-head-titles">
           <h2>Photo Processing</h2>
-          <p>Search a student, then pick or upload a photo ‚Äî it is saved to the library automatically.</p>
+          <p>Search a student, then pick or upload a photo ó it is saved to the library automatically.</p>
         </div>
       </div>
       <div className="pp-grid">
@@ -7494,7 +5897,7 @@ function PhotoProcessingView({ user, api, assetUrl, onBack }) {
               <div className="cid-search-results">
                 {searchResults.map((s) => (
                   <div key={s.id} className="cid-search-result" onClick={() => selectStudent(s)}>
-                    <div className="csr-name">{s.student_name || "‚Äî"}</div>
+                    <div className="csr-name">{s.student_name || "ó"}</div>
                     <div className="csr-details">{s.student_id_number || s.student_number || ""} {s.course || s.grade_level} {s.section_name}</div>
                   </div>
                 ))}
@@ -7543,14 +5946,14 @@ function PhotoProcessingView({ user, api, assetUrl, onBack }) {
         <div className="pp-panel pp-panel-editor">
           <h3>Upload Photo</h3>
           <label className="pp-dropzone" style={{ marginBottom: 12 }}>
-            <div>üì∑ Choose Photo</div>
-            <p>JPG, JPEG, PNG{selectedStudent ? " ‚Äî will be saved to " + selectedStudent.student_name : " ‚Äî select a student first"}</p>
+            <div>?? Choose Photo</div>
+            <p>JPG, JPEG, PNG{selectedStudent ? " ó will be saved to " + selectedStudent.student_name : " ó select a student first"}</p>
             <input type="file" accept="image/png,image/jpeg,image/webp" style={{ display: "none" }} onChange={handlePhotoUpload} />
           </label>
           {previewUrl ? (
             <div className="pp-editor-wrap"><img src={previewUrl} alt="Preview" className="pp-editor-img" /></div>
           ) : (
-            <div className="pp-editor-wrap"><div className="pp-editor-placeholder"><div className="pp-icon">üñº</div><div>Choose a photo to preview it here</div></div></div>
+            <div className="pp-editor-wrap"><div className="pp-editor-placeholder"><div className="pp-icon">??</div><div>Choose a photo to preview it here</div></div></div>
           )}
           {msg && <div className="alert pp-msg">{msg}</div>}
         </div>
@@ -7631,7 +6034,8 @@ function PhotoLibraryView({ user, onBack }) {
     setLoading(false);
   }
 
-  /* Mount once ‚Äî no deps array here previously caused an infinite fetch
+  /* Mount once ó load the photo library table on first render.
+   * No deps array here previously caused an infinite fetch
    * loop (every re-render re-ran the effect), saturating the browser's
    * per-host connection limit and surfacing "Failed to fetch". */
   useEffect(() => { load(1); }, []);
@@ -7685,7 +6089,7 @@ function PhotoLibraryView({ user, onBack }) {
     <div style={{ padding: "20px 28px" }}>
       <div className="pp-head">
         <button type="button" className="pp-back" onClick={() => { if (onBack) onBack(); }}>
-          ‚Üê Back to Dashboard
+          ? Back to Dashboard
         </button>
         <div className="pp-head-titles">
           <h2 style={{ margin: 0 }}>Centralized Photo Library</h2>
@@ -7722,7 +6126,7 @@ function PhotoLibraryView({ user, onBack }) {
       {loading ? (
         <div style={{ textAlign: "center", padding: 40, color: "#8a948e" }}>Loading photos...</div>
       ) : (<>
-        {/* Name-only table ‚Äî zero image requests until a row's Edit popup opens */}
+        {/* Name-only table ó zero image requests until a row's Edit popup opens */}
         <div className="pl-tablewrap">
           <table className="pl-table">
             <thead>
@@ -7743,23 +6147,23 @@ function PhotoLibraryView({ user, onBack }) {
                 rows.map((p) => (
                   <tr key={p.id}>
                     <td className="pl-name-cell">
-                      {p.student_name || "‚Äî"}
+                      {p.student_name || "ó"}
                       {p.is_active !== 1 && <span className="cpo-chip status-archived">ARCHIVED</span>}
                     </td>
-                    <td>{p.lrn || p.student_id_number || p.student_number || "‚Äî"}</td>
-                    <td>{(typeTitles[p.id_type] || p.id_type || "‚Äî").replace("Basic Education - ", "")}</td>
+                    <td>{p.lrn || p.student_id_number || p.student_number || "ó"}</td>
+                    <td>{(typeTitles[p.id_type] || p.id_type || "ó").replace("Basic Education - ", "")}</td>
                     <td>
                       <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                         <span className={"pl-badge " + (p.source === "PHOTO_PROCESSING" ? "source-process" : "source-create")}>{p.source === "PHOTO_PROCESSING" ? "PROC" : "CREATE"}</span>
                         <span className={"pl-badge type-" + p.type.toLowerCase()}>{p.type}</span>
                       </div>
                     </td>
-                    <td>{p.width}√ó{p.height} ¬∑ {(p.file_size / 1024).toFixed(0)} KB</td>
+                    <td>{p.width}◊{p.height} ∑ {(p.file_size / 1024).toFixed(0)} KB</td>
                     <td>{formatDateTime(p.created_at)}</td>
                     <td>
                       <div className="pl-actions">
                         <button type="button" onClick={() => setEditRow(p)} disabled={deletingId === p.id}>Edit</button>
-                        <button type="button" className="danger" onClick={() => deletePhotoRow(p)} disabled={deletingId === p.id}>{deletingId === p.id ? "Deleting‚Ä¶" : "Delete"}</button>
+                        <button type="button" className="danger" onClick={() => deletePhotoRow(p)} disabled={deletingId === p.id}>{deletingId === p.id ? "DeletingÖ" : "Delete"}</button>
                       </div>
                     </td>
                   </tr>
@@ -7770,10 +6174,10 @@ function PhotoLibraryView({ user, onBack }) {
         </div>
         {pages > 1 && (
           <div className="audit-pager" style={{ marginTop: 16 }}>
-            <span>Page {page} of {pages} ¬∑ {total} photos</span>
+            <span>Page {page} of {pages} ∑ {total} photos</span>
             <div>
-              <button disabled={page <= 1} onClick={() => { const np = page - 1; setPage(np); load(np); }}>‚Üê Prev</button>
-              <button disabled={page >= pages} onClick={() => { const np = page + 1; setPage(np); load(np); }}>Next ‚Üí</button>
+              <button disabled={page <= 1} onClick={() => { const np = page - 1; setPage(np); load(np); }}>? Prev</button>
+              <button disabled={page >= pages} onClick={() => { const np = page + 1; setPage(np); load(np); }}>Next ?</button>
             </div>
           </div>
         )}
@@ -7784,18 +6188,18 @@ function PhotoLibraryView({ user, onBack }) {
         <div className="audit-modal-overlay" onClick={() => !replacing && setEditRow(null)}>
           <div className="audit-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 460 }}>
             <div className="audit-modal-head">
-              <h3 style={{ margin: 0 }}>Edit Photo ‚Äî {editRow.student_name || "#" + editRow.id}</h3>
-              <button type="button" onClick={() => setEditRow(null)}>√ó</button>
+              <h3 style={{ margin: 0 }}>Edit Photo ó {editRow.student_name || "#" + editRow.id}</h3>
+              <button type="button" onClick={() => setEditRow(null)}>◊</button>
             </div>
             <div className="pl-edit-preview">
               <img src={`${BACKEND_URL}/api.php?action=photoLibraryServe&id=${editRow.id}`} alt="Current photo" />
               <div className="pl-edit-meta">
-                Photo #{editRow.id} ¬∑ {editRow.width}√ó{editRow.height} ¬∑ {(editRow.file_size / 1024).toFixed(0)} KB ¬∑ {formatDateTime(editRow.created_at)}
+                Photo #{editRow.id} ∑ {editRow.width}◊{editRow.height} ∑ {(editRow.file_size / 1024).toFixed(0)} KB ∑ {formatDateTime(editRow.created_at)}
               </div>
             </div>
             <label className="pp-dropzone pp-dropzone-sm" style={{ cursor: replacing ? "wait" : "pointer" }}>
-              <div>{replacing ? "Replacing‚Ä¶" : "üì§ Replace Photo"}</div>
-              <p>Choose a new JPG / PNG / WEBP ‚Äî the current file will be replaced</p>
+              <div>{replacing ? "ReplacingÖ" : "?? Replace Photo"}</div>
+              <p>Choose a new JPG / PNG / WEBP ó the current file will be replaced</p>
               <input type="file" accept="image/png,image/jpeg,image/webp" style={{ display: "none" }} disabled={replacing} onChange={handleReplace} />
             </label>
             <div style={{ display: "flex", gap: 8, justifyContent: "space-between", marginTop: 14 }}>
@@ -7841,7 +6245,7 @@ function BulkGenerateModal({
       <div className="audit-modal bulk-modal" onClick={(e) => e.stopPropagation()}>
         <div className="audit-modal-head">
           <h3>Bulk ID Generation</h3>
-          <button onClick={() => !generating && onClose()}>‚úï</button>
+          <button onClick={() => !generating && onClose()}>?</button>
         </div>
 
         {!preview && !generating && (
@@ -7849,7 +6253,7 @@ function BulkGenerateModal({
             <div className="audit-block">
               <h4>ID Template</h4>
               <select value={templateId} onChange={(e) => setTemplateId(e.target.value ? Number(e.target.value) : "")} className="bulk-template-select">
-                <option value="">‚Äî Use each student's template ‚Äî</option>
+                <option value="">ó Use each student's template ó</option>
                 {templates.map((t) => (<option key={t.id} value={t.id}>{t.name}</option>))}
               </select>
             </div>
@@ -7896,7 +6300,7 @@ function BulkGenerateModal({
                 <div key={r.id} className="bulk-preview-item">
                   <span>{r.student.student_name}</span>
                   <small>{r.student.student_number || r.student.lrn || "# " + r.student.id}</small>
-                  <button className="bulk-remove" onClick={() => setSelected((prev) => prev.filter((x) => x !== r.id))} title="Remove from batch">‚úï</button>
+                  <button className="bulk-remove" onClick={() => setSelected((prev) => prev.filter((x) => x !== r.id))} title="Remove from batch">?</button>
                 </div>
               ))}
               {preview.counts.ready > 10 && (<small className="bulk-more-hint">+ {preview.counts.ready - 10} more ready students</small>)}
@@ -7925,7 +6329,7 @@ function BulkGenerateModal({
               <div className="bulk-progress-fill" style={{ width: `${progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0}%` }} />
             </div>
             <p>Generating IDs: {progress.current} / {progress.total}{progress.failed > 0 && ` (${progress.failed} failed)`}</p>
-            <p className="bulk-more-hint">Please keep this tab open ‚Äî rendering each card at full print resolution.</p>
+            <p className="bulk-more-hint">Please keep this tab open ó rendering each card at full print resolution.</p>
           </div>
         )}
       </div>
@@ -7934,7 +6338,7 @@ function BulkGenerateModal({
 }
 
 /* ================= Batch Printing Modal =================
- * Confirmation ‚Üí progress ‚Üí result for printing several IDs in ONE Smart
+ * Confirmation ? progress ? result for printing several IDs in ONE Smart
  * ID 51 job. Mirrors BulkGenerateModal's flow: the exact selected count is
  * shown before printing, IDs that were printed before force a reprint
  * reason (recorded in the Print History), and the render progress is
@@ -7953,7 +6357,7 @@ function BulkPrintModal({
   printFn,
   onClose,
 }) {
-  /* First prints vs reprints ‚Äî the same split the server derives from
+  /* First prints vs reprints ó the same split the server derives from
    * print_count / printed_at when recording the print history. */
   const originals = records.filter(
     (r) => !r.print_count && !r.printed_at,
@@ -7978,8 +6382,8 @@ function BulkPrintModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="audit-modal-head">
-          <h3>Batch Print ‚Äî Smart ID 51</h3>
-          <button onClick={() => !printing && onClose()}>‚úï</button>
+          <h3>Batch Print ó Smart ID 51</h3>
+          <button onClick={() => !printing && onClose()}>?</button>
         </div>
 
         {!printing && !result && (
@@ -8001,7 +6405,7 @@ function BulkPrintModal({
             {overCap && (
               <p className="bp-warn">
                 Only the first {MAX_BULK_PRINT} selected IDs fit in one print
-                job ‚Äî print the rest in a second batch.
+                job ó print the rest in a second batch.
               </p>
             )}
             <div className="audit-block">
@@ -8013,8 +6417,8 @@ function BulkPrintModal({
                     <small>
                       {r.student_number || r.student_id_number || r.lrn || ""}
                       {r.print_count > 0 || r.printed_at
-                        ? ` ¬∑ reprint (printed √ó${r.print_count || 0})`
-                        : " ¬∑ first print"}
+                        ? ` ∑ reprint (printed ◊${r.print_count || 0})`
+                        : " ∑ first print"}
                     </small>
                     <button
                       className="bulk-remove"
@@ -8022,7 +6426,7 @@ function BulkPrintModal({
                       disabled={printing}
                       title="Remove from batch"
                     >
-                      ‚úï
+                      ?
                     </button>
                   </div>
                 ))}
@@ -8037,7 +6441,7 @@ function BulkPrintModal({
               {reasonNeeded ? (
                 <>
                   <h4>
-                    Reprint reason (required ‚Äî {reprints} ID
+                    Reprint reason (required ó {reprints} ID
                     {reprints === 1 ? "" : "s"} already printed)
                   </h4>
                   <div className="reason-choices">
@@ -8078,8 +6482,8 @@ function BulkPrintModal({
                 </>
               ) : (
                 <p className="bp-note">
-                  Every selected ID is a first print ‚Äî each will be recorded as
-                  ‚ÄúOriginal ¬∑ New Student‚Äù in the <b>Print History</b>.
+                  Every selected ID is a first print ó each will be recorded as
+                  ìOriginal ∑ New Studentî in the <b>Print History</b>.
                 </p>
               )}
             </div>
@@ -8093,7 +6497,7 @@ function BulkPrintModal({
                 disabled={records.length === 0 || (reasonNeeded && reason === "")}
                 onClick={() => printFn(reason)}
               >
-                üñ® Print {records.length} ID{records.length === 1 ? "" : "s"}{" "}
+                ?? Print {records.length} ID{records.length === 1 ? "" : "s"}{" "}
                 (Front + Back)
               </button>
             </div>
@@ -8117,11 +6521,11 @@ function BulkPrintModal({
               {progress.phase === "render"
                 ? `Rendering IDs: ${progress.current} / ${progress.total}`
                 : progress.phase === "send"
-                  ? "Sending the job to the printer ‚Äî choose the Smart ID 51 in the print dialog‚Ä¶"
-                  : "Recording the print jobs in the Print History‚Ä¶"}
+                  ? "Sending the job to the printer ó choose the Smart ID 51 in the print dialogÖ"
+                  : "Recording the print jobs in the Print HistoryÖ"}
             </p>
             <p className="bulk-more-hint">
-              Please keep this tab open ‚Äî each ID is rendered at full print
+              Please keep this tab open ó each ID is rendered at full print
               resolution (front + back).
             </p>
           </div>
@@ -8156,7 +6560,7 @@ function BulkPrintModal({
                 </div>
                 {result.skipped.length > 0 && (
                   <div className="bp-result-list">
-                    <h4>Skipped (released ‚Äî cannot be printed)</h4>
+                    <h4>Skipped (released ó cannot be printed)</h4>
                     {result.skipped.map((s) => (
                       <div key={s.id} className="bp-result-item">
                         <span>{s.student_name || "# " + s.id}</span>
@@ -8204,7 +6608,7 @@ function dashMonthLabel(ym) {
   const i = Number(m) - 1;
   return DASH_MONTHS[i] ? `${DASH_MONTHS[i]} ${y}` : String(ym);
 }
-/* Continuous month axis for the Monthly chart: from‚Üíto when a date range is
+/* Continuous month axis for the Monthly chart: from?to when a date range is
  * selected, otherwise the trailing 12 months. Missing months render as 0. */
 function dashMonthKeys(from, to) {
   const parse = (s) => (s ? new Date(`${s}T00:00:00`) : null);
@@ -8242,7 +6646,7 @@ function StatCard({ icon, label, value, hint, tone }) {
     </div>
   );
 }
-/* Department / Level analytics ‚Äî horizontal bars per existing id_type
+/* Department / Level analytics ó horizontal bars per existing id_type
  * (College / Junior High / Senior High) with printed + released breakdown. */
 function DeptChart({ rows }) {
   const data = rows || [];
@@ -8271,11 +6675,11 @@ function DeptChart({ rows }) {
                 width: `${(d.total / max) * 100}%`,
                 background: DASH_DEPT_COLORS[d.id_type] || "#205f38",
               }}
-              title={`${d.total} total ¬∑ ${d.printed} printed ¬∑ ${d.released} released`}
+              title={`${d.total} total ∑ ${d.printed} printed ∑ ${d.released} released`}
             />
           </div>
           <small className="dept-sub">
-            {d.printed} printed ¬∑ {d.released} released
+            {d.printed} printed ∑ {d.released} released
           </small>
         </div>
       ))}
@@ -8283,7 +6687,7 @@ function DeptChart({ rows }) {
   );
 }
 
-/* Monthly ID Generation chart ‚Äî dependency-free SVG. Bars = IDs created
+/* Monthly ID Generation chart ó dependency-free SVG. Bars = IDs created
  * (generated) that month, line = print jobs recorded that month. */
 function MonthlyChart({ generated, printed, monthKeys }) {
   const keys = monthKeys.length ? monthKeys : Object.keys(generated || {}).sort();
@@ -8335,7 +6739,7 @@ function MonthlyChart({ generated, printed, monthKeys }) {
               rx={2}
               className="mc-bar"
             >
-              <title>{`${dashMonthLabel(d.ym)} ‚Äî generated: ${d.g} ¬∑ printed: ${d.p}`}</title>
+              <title>{`${dashMonthLabel(d.ym)} ó generated: ${d.g} ∑ printed: ${d.p}`}</title>
             </rect>
             {d.g > 0 && n <= 14 ? (
               <text x={cx(i)} y={y(d.g) - 3} className="mc-val" textAnchor="middle">
@@ -8355,7 +6759,7 @@ function MonthlyChart({ generated, printed, monthKeys }) {
             {data.map((d, i) =>
               d.p > 0 ? (
                 <circle key={`c${d.ym}`} cx={cx(i)} cy={y(d.p)} r={3} className="mc-dot">
-                  <title>{`${dashMonthLabel(d.ym)} ‚Äî printed: ${d.p}`}</title>
+                  <title>{`${dashMonthLabel(d.ym)} ó printed: ${d.p}`}</title>
                 </circle>
               ) : null,
             )}
@@ -8404,16 +6808,16 @@ function ExportButtons() {
   return (
     <div className="export-grid">
       <button onClick={() => go("front-card", "png")} disabled={!!busy}>
-        {busy === "front-card-png" ? "Exporting‚Ä¶" : "Front PNG"}
+        {busy === "front-card-png" ? "ExportingÖ" : "Front PNG"}
       </button>
       <button onClick={() => go("back-card", "png")} disabled={!!busy}>
-        {busy === "back-card-png" ? "Exporting‚Ä¶" : "Back PNG"}
+        {busy === "back-card-png" ? "ExportingÖ" : "Back PNG"}
       </button>
       <button onClick={() => go("front-card", "jpg")} disabled={!!busy}>
-        {busy === "front-card-jpg" ? "Exporting‚Ä¶" : "Front JPG"}
+        {busy === "front-card-jpg" ? "ExportingÖ" : "Front JPG"}
       </button>
       <button onClick={() => go("back-card", "jpg")} disabled={!!busy}>
-        {busy === "back-card-jpg" ? "Exporting‚Ä¶" : "Back JPG"}
+        {busy === "back-card-jpg" ? "ExportingÖ" : "Back JPG"}
       </button>
     </div>
   );

@@ -338,7 +338,6 @@ function pinCardTemplateVersion(PDO $pdo, array &$values, int $cardId = 0): void
   $values['template_version'] = (int)$tpl['version'];
 }
 $action=$_GET['action']??'';
-$action=$_GET['action']??'';
 try {
   $pdo=db();
 
@@ -472,7 +471,7 @@ try {
   if ($action==='studentUploadPhoto' && $_SERVER['REQUEST_METHOD']==='POST') {
     /* Rate limit BEFORE touching the upload: a throttled client must
      * not be able to push files onto the server at all. */
-    rlGuard('studentUploadPhoto', $_POST);
+    rlGuard('studentUploadPhoto', input());
     response(['success'=>true,'path'=>uploadStudentImage('photo')]);
   }
   if ($action==='studentSaveCard' && $_SERVER['REQUEST_METHOD']==='POST') {
@@ -488,7 +487,7 @@ try {
     if (strlen($course) > 255) response(['success'=>false,'message'=>'Course is too long'],422);
     if ($studentName==='') response(['success'=>false,'message'=>'Please enter the student full name'],422);
     if (!in_array($idType,['COLLEGE','JUNIOR_HIGH','SENIOR_HIGH'],true)) response(['success'=>false,'message'=>'Please select a valid department'],422);
-    $fields=['student_name','id_type','course','grade_level','section_name','student_number','student_id_number','lrn','academic_year','school_year','photo_path','preferred_photo_id','address_line1','address_line2','emergency_label','emergency_contact','emergency_phone','terms_title','term_1','term_2','term_3','institution_name','institution_address','mobile_no','telephone_no','email_address','signatory_id','signatory_name','signature_path','template_id','original_photo_path','photo_processing_status','photo_processed_at','photo_crop','background_mode','background_color'];
+    $fields=['student_name','id_type','course','grade_level','section_name','student_number','student_id_number','lrn','academic_year','school_year','photo_path','preferred_photo_id','address_line1','address_line2','emergency_label','emergency_contact','emergency_phone','terms_title','term_1','term_2','term_3','institution_name','institution_address','mobile_no','telephone_no','email_address','signatory_id','signatory_name','signature_path','template_id','template_version','original_photo_path','photo_processing_status','photo_processed_at','photo_crop','background_mode','background_color'];
     $values=[];foreach($fields as $f)$values[$f]=trim((string)($data[$f]??''));
     /* Photo processing metadata (kept neutral when not provided) */
     if (in_array($values['photo_processing_status']??'original',['original','processed','uploaded','failed'],true)===false) $values['photo_processing_status']='original';
@@ -1545,3 +1544,5 @@ try {
   }
   response(['success'=>false,'message'=>'Unknown action'],404);
 } catch(Throwable $e){response(['success'=>false,'message'=>$e->getMessage()],500);}
+
+
